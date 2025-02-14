@@ -47,7 +47,7 @@ def crear_crawler(ip_):
     #solo se llama al realizar OSINT con shodan
     info('creando objeto crawler...')
     
-    print(Fore.RED+'\niniciando crawler')
+    print(Fore.RED+'\n[+] iniciando crawler')
     
     #ip_num = ip numerica
     ip_num = ip.validacion(ip_)
@@ -80,7 +80,7 @@ try:
                 print(Fore.RED+'especificar parametro [-ip]')
                 
         except AttributeError:
-            print(Fore.RED+'\nsin informacion al respecto\n')
+            print(Fore.RED+'\n[+] sin informacion al respecto\n')
             
         
     if param.agresivo:
@@ -114,32 +114,23 @@ try:
         if system() == 'Linux':
             if usuario == 'root':
                 if param.masivo:
-                    print('\n[*] escaneando todos los puertos...\n')
+                    print(Fore.YELLOW+'\n[+] escaneando todos los puertos...\n')
                 info('se inicia proceso de escaneo syn...')
-                print(Fore.GREEN+'\n[*] escaneo syn en curso ...\n')
-                with ThreadPoolExecutor(max_workers=hilo_) as ej:
-                    for p in puertos:
-                        
-                        proceso =ej.submit(escaneo_syn,param.ip,p)
+                print(Fore.WHITE+'\n[+] escaneo syn en curso ...\n')
+                if param.timeout != None:
+                    t = param.timeout
+                else:
+                    print('\n[+] timeout calculado automaticamente\n')
+                    latencia_ = latencia(param.ip)
+                    t = timeout(latencia_)
+                for p in puertos:
+                    proceso =escaneo_syn(ip=param.ip,puerto=p,timeout=t)
+
             else:
                 raise PermissionError
                       
         else:
-            print(Fore.RED+'\nescaneos syn-ack:\n[*] funcion exclusiva de Linux\n')
-
-    elif param.ack and param.ip != None:
-        if system() == 'Linux':
-            if usuario == 'root':
-                print('\n[*] iniciando escaneo ack...\n')
-
-                for p in param.selectivo.split(','):
-                    
-                    escaneo_ack(param.ip,int(p),t)
-                   
-            else:
-                raise PermissionError
-        else:
-            print(Fore.RED+'\nescaneos syn-ack:\n[*] funcion exclusiva de Linux\n')
+            print(Fore.RED+'\nescaneos syn-ack:\n[+] funcion exclusiva de Linux\n')
 
     #escaneo normal
     elif param.normal and param.buscar == None:
@@ -151,14 +142,14 @@ try:
             scan_normal(param.ip,scan)   
             
         else:
-            print(Fore.RED+'especificar parametro [-ip]') 
+            print(Fore.RED+'[+] especificar parametro [-ip]') 
 
     #escaneo selectivo
     elif param.selectivo:
         if param.ip != None:
             
         
-            scan= inicio_scan(msg='escaneo selectivo en curso...')
+            scan= inicio_scan(msg='[+] escaneo selectivo en curso...')
 
             scan_selectivo(param.ip,scan,param.selectivo)
             if param.info:
@@ -166,7 +157,7 @@ try:
                     informacion(param.ip,x)
 
         else:
-            print(Fore.RED+'\nespecificar parametro [-ip]\n')
+            print(Fore.RED+'\n[+] especificar parametro [-ip]\n')
     
     #para descubrir ips privadas
     elif param.ip != None and param.descubrir:
@@ -185,7 +176,7 @@ try:
                 if param.ip[-1] == 'x':
                     proceso =ejec.submit(descubrir_red,param.ip,x,timeout_) 
                 else:
-                    print(Fore.RED+'\nla ip debe contener una x al final, ejemplo "192.168.0.x"\n')
+                    print(Fore.RED+'\n[+] la ip debe contener una x al final, ejemplo "192.168.0.x"\n')
                     break
             
             proceso.result()
@@ -210,7 +201,7 @@ try:
         #buscar ips publicas
     elif param.buscar != None and not param.normal and param.ip == None:
     
-        print(Fore.GREEN+'\n* rastreando ips publicas...\n')
+        print(Fore.GREEN+'\n[+] rastreando ips publicas...\n')
         threading.Thread(target=detener).start()
     
         while n < param.buscar and not deten:
@@ -225,9 +216,9 @@ try:
             if str(input(Fore.WHITE+'[1] guardar informacion >> ')).strip() == '1':
                 for ip in lista_ips:
                     agregar_arch(ip)
-                print(Fore.GREEN+'\nla informacion fue guardada\n')
+                print(Fore.GREEN+'\n[+] la informacion fue guardada\n')
             else:
-                print(Fore.RED+'\nla informacion no fue guardada\n')
+                print(Fore.RED+'\n[+] la informacion no fue guardada\n')
 
     
 
