@@ -1,6 +1,16 @@
 ![logo.png](https://github.com/Urban20/escaner-de-red/blob/main/img/logo.png?raw=true)
 
-> [!IMPORTANT]
+<p>
+
+  <img alt="Static Badge" src="https://img.shields.io/badge/hecho_en-Python-blue?style=flat-square&logo=python&logoColor=white">
+  <img alt="Static Badge" src="https://img.shields.io/badge/Espa%C3%B1ol-yellow?style=flat">
+  <img alt="Static Badge" src="https://img.shields.io/badge/Shodan-red?style=flat">
+
+</p>
+
+
+### Importante:
+
 antes de ejecutar la herramienta se debe abrir un terminal en el directorio y ejecutar el comando:
 `pip install -r requirements.txt`
 esto instala todas las librerias necesarias para la ejecucion del codigo
@@ -64,7 +74,7 @@ python scip3.py -ip www.google.com -syn ---> escaneos syn (solo linux), se puede
 
 ![demo2.png](https://github.com/Urban20/escaner-de-red/blob/main/img/demo2.png?raw=true)
 
-[![demo3.png](https://github.com/Urban20/escaner-de-red/blob/main/img/demo3.png?raw=true)
+![demo3.png](https://github.com/Urban20/escaner-de-red/blob/main/img/demo3.png?raw=true)
 
 > [!WARNING]
 no se recomienda poner un numero muy alto para el parametro b ya que esta funcion consume APIS con un numero finito de solicitudes por minuto, si se excede el limite se debe esperar una hora para que tu ip sea desbloqueada
