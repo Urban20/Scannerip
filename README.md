@@ -4,7 +4,7 @@
 
   <img alt="Static Badge" src="https://img.shields.io/badge/hecho_en-Python-blue?style=flat-square&logo=python&logoColor=white">
   <img alt="Static Badge" src="https://img.shields.io/badge/Espa%C3%B1ol-yellow?style=flat">
-  <img alt="Static Badge" src="https://img.shields.io/badge/Shodan-red?style=flat">
+  <img alt="Static Badge" src="https://img.shields.io/badge/Integrado_con-Shodan-red">
 
 </p>
 

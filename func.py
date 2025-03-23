@@ -258,7 +258,7 @@ parametros:
     print(f'\n{data.logo}')
     print(Fore.CYAN+'github: https://github.com/Urban20')
     print(f'{h}\n')
-    print(f'\n{data.autor}')
+    
 
 def informacion(ip,puerto):
     #esta funcion es la que gestiona la informacion que proviene de fingerprint y en base a los resultados da un mensaje en consola
