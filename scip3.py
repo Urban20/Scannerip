@@ -192,8 +192,11 @@ try:
                     print(Fore.GREEN+f'\n{ip}:\n')
                     print(json.get(str(codigo)))
                     print(Fore.CYAN+f'[*] nombre de disp. en la red: {nombre}')
-                    print(Fore.CYAN+f'[*] direccion mac: {mac}')
-                    print(Fore.CYAN+f'[*] compania: {compania}')
+                    if mac != None:
+                        print(Fore.CYAN+f'[*] direccion mac: {mac}')
+                    if compania != None:
+                        print(Fore.CYAN+f'[*] compania encontrada: {compania}')
+                    print('\n')
                 
         
         #buscar ips publicas

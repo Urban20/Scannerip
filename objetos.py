@@ -145,9 +145,11 @@ class Bot_Crawler():
 class Ipv4():
     def __init__(self,ip):
         self.ipv4 = ip
-        self.nombre = None
-        self.mac = None
-        self.compania = None
+
+        # atributos privados de la clase
+        self.__nombre = None
+        self.__mac = None
+        self.__compania = None
 
     def ttl(self):
         logging.info('calculando ttl...')
@@ -162,26 +164,26 @@ class Ipv4():
         try:
             out =str(sp.check_output(['ip','neigh','show',self.ipv4],text=True))
             
-            self.mac = re.search(r'\w+:\w+:\w+:\w+:\w+:\w+',out.lower()).group()
+            self.__mac = re.search(r'\w+:\w+:\w+:\w+:\w+:\w+',out.lower()).group()
 
-            return self.mac
+            return self.__mac
         except:
             return None
     def obtener_nombre(self):
         logging.info('obteniendo nombres...')
         try:
-            self.nombre = re.search(r'(\w+)\.',socket.gethostbyaddr(self.ipv4)[0].lower()).group(1).strip()
+            self.__nombre = re.search(r'(\w+)\.',socket.gethostbyaddr(self.ipv4)[0].lower()).group(1).strip()
         except:
-            self.nombre = '[desconocido]'
-        return(self.nombre)
+            self.__nombre = '[desconocido]'
+        return self.__nombre
     
     def obtener_compania(self):
         logging.info('obteniendo informacion de las companias de los dispositivos...')
         try:
             api= requests.get(f'https://www.macvendorlookup.com/api/v2/{self.mac}').json()
             for el in api:
-                self.compania = str(el['company'])
-                return self.compania
+                self.__compania = str(el['company'])
+                return self.__compania
         except:
             return None
         
