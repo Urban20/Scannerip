@@ -3,8 +3,10 @@
 <p>
 
   <img alt="Static Badge" src="https://img.shields.io/badge/hecho_en-Python-blue?style=flat-square&logo=python&logoColor=white">
-  <img alt="Static Badge" src="https://img.shields.io/badge/Espa%C3%B1ol-yellow?style=flat">
-  <img alt="Static Badge" src="https://img.shields.io/badge/Integrado_con-Shodan-red">
+  <img alt="Static Badge" src="https://img.shields.io/badge/Espa%C3%B1ol-yellow%3Fstyle%3Dflat?style=social">
+  <img alt="Static Badge" src="https://img.shields.io/badge/Integrado-con_Shodan-red?style=flat-square">
+  <img alt="Static Badge" src="https://img.shields.io/badge/compatible_con-Windows-magenta?style=flat-square&">
+  <img alt="Static Badge" src="https://img.shields.io/badge/compatible_con-Linux-green?style=flat-square&">
 
 </p>
 
@@ -69,8 +71,6 @@ python scip3.py -ip www.google.com -syn ---> escaneos syn (solo linux), se puede
 ![parametros.png](https://github.com/Urban20/escaner-de-red/blob/main/img/parametros.png?raw=true)
 
 > **algunas demostraciones graficas de como se usa el script:**
-
-![demo1.png](https://github.com/Urban20/escaner-de-red/blob/main/img/demo1.png?raw=true)
 
 ![demo2.png](https://github.com/Urban20/escaner-de-red/blob/main/img/demo2.png?raw=true)
 
