@@ -252,7 +252,13 @@ parametros:
                                                 
   -r, --reintento                          * parametro para escaneos syn, setea el numeros de reintentos para recibir informacion de un puerto  
         
-  -no_filtrado                             * muestra unicamente los puertos abiertos durante el escaneo syn                 '''
+  -no_filtrado                             * muestra unicamente los puertos abiertos durante el escaneo syn           
+        
+  --syn                                    * escaneos de handsake incompleto:
+                                             - escaneo rapido
+                                             - escaneo mas silencioso
+                                             - permite ver puertos filtrados 
+                                             (solo linux, requiere sudo)      '''
 
     
     print(f'\n{data.logo}')

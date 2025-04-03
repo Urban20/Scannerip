@@ -70,7 +70,7 @@ python scip3.py -ip www.google.com -syn ---> escaneos syn (solo linux), se puede
   
 ![parametros.png](https://github.com/Urban20/escaner-de-red/blob/main/img/parametros.png?raw=true)
 
-> **algunas demostraciones graficas de como se usa el script:**
+> **algunas demostraciones graficas de como se usan algunas funciones que provee la herramienta:**
 
 ![demo2.png](https://github.com/Urban20/escaner-de-red/blob/main/img/demo2.png?raw=true)
 
