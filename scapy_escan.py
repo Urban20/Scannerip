@@ -3,13 +3,11 @@ import re
 from colorama import init,Fore
 import logging
 from params import *
+from data import p_abiertos
 
 init()
 
 
-# agregar escaneos udp
-# revisar los reintentos
-#intentar ajustar el tiempo
 
 if param.reintento != None:
     reintento = param.reintento
@@ -18,6 +16,7 @@ else:
 
 
 def escaneo_ack(ip,puerto,timeout_):
+    #s_ack --> hace refencia a los escaneos ack --> variable
     conf.verb = 0
     s_ack = sr1(IP(dst=ip)/TCP(dport=puerto,flags='A'),timeout=timeout_,retry=reintento)#type: ignore
     
@@ -27,7 +26,7 @@ def escaneo_ack(ip,puerto,timeout_):
         print(Fore.YELLOW+f'\n[*] puerto filtrado (ICMP recibido) >> {puerto}\n')
     
 def escaneo_syn(ip,puerto,timeout):
-    #s_syn --> escaneo syn --> variable
+    #s_syn --> hace referencia a los escaneo syn --> variable
     try:
         
         conf.verb = 0
@@ -35,8 +34,12 @@ def escaneo_syn(ip,puerto,timeout):
         if s_syn != None :
             if re.search('SA',str(s_syn)):
                 print(Fore.GREEN+f'\n[*] puerto abierto >> {puerto}\n')
+                if param.info:
+                    p_abiertos.append(puerto)
+                
         else:
-            escaneo_ack(ip=ip,puerto=puerto,timeout_=timeout)
+            if not param.no_filtrado:
+                escaneo_ack(ip=ip,puerto=puerto,timeout_=timeout)
 
     except AttributeError:
         pass

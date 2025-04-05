@@ -13,6 +13,11 @@ from logging import info,critical,warning
 from scapy_escan import *
 import subprocess as sp
 
+# cree esta herramienta con el objetivo de obtener informacion rapida de las direcciones IP
+# pensado en un inicio para windows pero compatible a Linux y con mejoras para este
+# intento mejorar y mantener el codigo dentro de lo posible
+# Autor: Urb@n (Urban20)
+
 'este modulo contiene el script principal el cual llama a todos los modulos necesarios para su funcionamiento'
 
 init()
@@ -21,13 +26,13 @@ def inicio_scan(msg):
     #solo se llama cuando son escaneos normales o selectivos 
     print(Fore.WHITE+f'\n\n#################################################')
     print(Fore.WHITE+msg)
-    print('\n"esc" para salir\n')
+    print('\n[+] "esc" para salir\n')
     if param.timeout == None:
         lat_prom= latencia(param.ip)
         tim = timeout(lat_prom)
     else:
         tim = param.timeout
-    print(f'timeout: {tim}')
+    print(f'[+] timeout: {tim}')
     return tim
 
 #revisa si se trata de un usuario root o no
@@ -59,7 +64,7 @@ def crear_crawler(ip_):
     crawler.scrapping_shodan()
     crawler.obtener_links()
 
-
+# hilos por defecto
 if param.hilo == None:
     hilo_= 100
 else:
@@ -77,7 +82,7 @@ try:
                 else:       
                     crear_crawler(param.ip)
             else:
-                print(Fore.RED+'especificar parametro [-ip]')
+                print(Fore.RED+'[+] especificar parametro [-ip]')
                 
         except AttributeError:
             print(Fore.RED+'\n[+] sin informacion al respecto\n')
@@ -88,9 +93,9 @@ try:
         if param.ip != None:
             print(Fore.WHITE+'''\n\n#################################################''')
             info('escaneo agresivo iniciado...')
-            print(Fore.WHITE+'escaneo agresivo en curso...')
+            print(Fore.WHITE+'[+] escaneo agresivo en curso...')
             json = cargar_json('data_puertos.json')
-            print(f'num de hilos: {hilo_}\n\rtimeout:{t}')
+            print(f'[+] num de hilos: {hilo_}\n\rtimeout:{t}')
             with ThreadPoolExecutor(max_workers=hilo_) as ejec:
                 ip = gethostbyname(param.ip)
                 for x in puertos:
@@ -98,16 +103,12 @@ try:
                     ejec.submit(scan_agresivo,ip,x,t,json)
 
             if not p_abiertos:
-                print(Fore.RED+'\nningun puerto encontrado\n')        
-                
-            if param.info:
-                for x in p_abiertos:
-                    informacion(ip,x)
-            
+                print(Fore.RED+'\n[+] ningun puerto encontrado\n')        
+               
             preg_informe()
         
         else:
-            print(Fore.RED+'\nespecificar parametro [-ip]\n')        
+            print(Fore.RED+'\n[+] especificar parametro [-ip]\n')        
     
     #escaneo SYN
     elif param.syn and param.ip != None:
@@ -130,7 +131,7 @@ try:
                 raise PermissionError
                       
         else:
-            print(Fore.RED+'\nescaneos syn-ack:\n[+] funcion exclusiva de Linux\n')
+            print(Fore.RED+'\n[+] escaneos syn:\n[+] funcion exclusiva de Linux\n')
 
     #escaneo normal
     elif param.normal and param.buscar == None:
@@ -152,10 +153,7 @@ try:
             scan= inicio_scan(msg='[+] escaneo selectivo en curso...')
 
             scan_selectivo(param.ip,scan,param.selectivo)
-            if param.info:
-                for x in p_abiertos:
-                    informacion(param.ip,x)
-
+            
         else:
             print(Fore.RED+'\n[+] especificar parametro [-ip]\n')
     
@@ -168,7 +166,7 @@ try:
         else:
             timeout_ = 4
     
-        print(Fore.GREEN+'rastreando ips privadas: ')
+        print(Fore.GREEN+'[+] rastreando ips privadas: ')
         with ThreadPoolExecutor(max_workers=150) as ejec:
             for x in range(1,255):
                
@@ -193,14 +191,17 @@ try:
                 if codigo != None:
                     print(Fore.GREEN+f'\n{ip}:\n')
                     print(json.get(str(codigo)))
-                    print(Fore.CYAN+f'nombre de disp. en la red: {nombre}')
-                    print(Fore.CYAN+f'direccion mac: {mac}')
-                    print(Fore.CYAN+f'compania: {compania}')
+                    print(Fore.CYAN+f'[*] nombre de disp. en la red: {nombre}')
+                    if mac != None:
+                        print(Fore.CYAN+f'[*] direccion mac: {mac}')
+                    if compania != None:
+                        print(Fore.CYAN+f'[*] compania encontrada: {compania}')
+                    print('\n')
                 
         
         #buscar ips publicas
     elif param.buscar != None and not param.normal and param.ip == None:
-    
+        info('iniciando busqueda de ips publicas...')
         print(Fore.GREEN+'\n[+] rastreando ips publicas...\n')
         threading.Thread(target=detener).start()
     
@@ -217,10 +218,16 @@ try:
                 for ip in lista_ips:
                     agregar_arch(ip)
                 print(Fore.GREEN+'\n[+] la informacion fue guardada\n')
+
             else:
                 print(Fore.RED+'\n[+] la informacion no fue guardada\n')
 
-    
+        info('busqueda finalizada')    
+        func.deten = True
+
+    if param.info and p_abiertos:
+        for x in p_abiertos:
+            informacion(param.ip,int(x))
 
     if param.ayuda:
         ayuda()
@@ -244,3 +251,5 @@ except Exception as e:
     exit(1)
 finally:
     warning('la herramienta fue finalizada')
+    exit(0)
+    
