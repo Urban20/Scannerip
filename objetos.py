@@ -16,23 +16,23 @@ init()
 #objeto ip que solo se utiliza con el crawler
 class Ip():
     def __init__(self):
-        self.ip = None
+        self.__ip = None
         self.validado = False
     
     def validacion(self,ip):
         logging.info('validando ip...')
         try:
-            ip_ =socket.gethostbyname(ip)
-            if ipaddress.ip_address(ip_).is_global:
+            ip_num = socket.getaddrinfo(ip,None)[-1][-1][0].strip()
+            if ipaddress.ip_address(ip_num).is_global:
                 self.validado = True
-                self.ip = ip_
-                return ip_
+                self.__ip = ip_num # atributo privado
+                return ip_num
             else:
-                print('debe ser una ip global')
+                print('\n[!] debe ser una ip global\n')
             
         except socket.gaierror:
 
-            print(Fore.RED+'el dominio/ip proporcionado es incorrecto')
+            print(Fore.RED+'\n[!] el dominio/ip proporcionado es incorrecto\n')
 
         except Exception as e:
             logging.critical('ocurrio un error durante la validacion de ip')
@@ -40,28 +40,28 @@ class Ip():
     def informacion(self):
         logging.info('intentando obtener informacion de ip...')
         try:
-            if self.validado and self.ip != None:
-                ip_api = requests.get(f'http://ip-api.com/json/{self.ip}')
-                shodan_api = requests.get(f'https://internetdb.shodan.io/{self.ip}')
-                geo = requests.get(f'http://www.geoplugin.net/json.gp?ip={self.ip}')
+            if self.validado and self.__ip != None:
+                ip_api = requests.get(f'http://ip-api.com/json/{self.__ip}')
+                shodan_api = requests.get(f'https://internetdb.shodan.io/{self.__ip}')
+                geo = requests.get(f'http://www.geoplugin.net/json.gp?ip={self.__ip}')
                 if shodan_api.status_code == 200:
                     print(Fore.GREEN+f'\nINFO:')
                     print(Fore.WHITE+f'''
 #################################################                                                       
--ip:{shodan_api.json().get('ip')}
+-ip: {shodan_api.json().get('ip')}
 -puertos: {shodan_api.json().get('ports')}
--nombre de host:{shodan_api.json().get('hostnames')}
--tipo de dispositivo:{shodan_api.json().get('tags')}
+-nombre de host: {shodan_api.json().get('hostnames')}
+-tipo de dispositivo: {shodan_api.json().get('tags')}
 #################################################''')
                 if geo.status_code == 200 and ip_api.status_code == 200:
                     print(Fore.GREEN+f'\nGEOLOCALIZACION:')
                     print(Fore.WHITE+f'''
 #################################################
--pais:{geo.json().get('geoplugin_countryName')}
--ciudad:{geo.json().get('geoplugin_city')}
--estado/prov:{geo.json().get('geoplugin_regionName')}
--ISP:{ip_api.json().get('isp')}
--org:{ip_api.json().get('org')}
+-pais: {geo.json().get('geoplugin_countryName')}
+-ciudad: {geo.json().get('geoplugin_city')}
+-estado/prov: {geo.json().get('geoplugin_regionName')}
+-ISP: {ip_api.json().get('isp')}
+-org: {ip_api.json().get('org')}
 #################################################''')
 
         except Exception as e:
@@ -71,7 +71,7 @@ class Ip():
         logging.info('intentando obtener reputacion de ip...')
         try:
             if self.validado:
-                rep = func.confiabilidad_ip(self.ip)
+                rep = func.confiabilidad_ip(self.__ip)
                 if rep != None:
                     match rep:
                         case 'failure-message':
@@ -81,7 +81,7 @@ class Ip():
                         case 'success-message':
                             print(Fore.CYAN+'fuera de la lista negra')
             else:
-                print(Fore.RED+'no se pudo obtener la reputacion: ip no validada')
+                print(Fore.RED+'\n[!] no se pudo obtener la reputacion: ip no validada\n')
         except Exception as e:
             logging.critical('hubo un error durante la obtencion de reputacion de la ip')
 
