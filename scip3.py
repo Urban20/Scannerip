@@ -16,7 +16,9 @@ import subprocess as sp
 # cree esta herramienta con el objetivo de obtener informacion rapida de las direcciones IP
 # pensado en un inicio para windows pero compatible a Linux y con mejoras para este
 # intento mejorar y mantener el codigo dentro de lo posible
-# Autor: Urb@n (Urban20)
+
+# nota: el codigo probablemente funcione mejor en entornos Linux aunque es compatible tambien en Windows
+# Autor: Urb@n (Urban20, Matias Urbaneja)
 
 'este modulo contiene el script principal el cual llama a todos los modulos necesarios para su funcionamiento'
 

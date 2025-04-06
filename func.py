@@ -64,6 +64,7 @@ q = 0
 n = 0
 
 def cargar_json(archivo):
+    'funcion utilizada para la lectura de archivos .json'
     try:
         logging.info('cargando json...')
         with open(f'json/{archivo}','r') as arch:
@@ -81,6 +82,7 @@ else:
     puertos = list(cargar_json('puertos.json')['lista'])
 
 def fingerprint(ip,puerto):
+    'intenta obtener informacion de puertos abiertos a traves de payloads especificos'
     logging.info('iniciando fingerprint...')
     buffer = 1024
     msg = None
@@ -130,7 +132,7 @@ def fingerprint(ip,puerto):
     logging.info('se finalizo el fingerprint')
 
 def preg_informe():
-    
+    'pregunta acerca de guardar informes'
     preg = str(input(Fore.WHITE+'[1] guardar informe >> ').strip())
     if preg == '1':
         titulo = str(input('titulo: '))
@@ -138,6 +140,7 @@ def preg_informe():
         crear_informe(params.param.ip,data.p_abiertos,titulo)
 
 def cuerpo_scan(lista,ip,timeout,json_):
+    'escaneos de tipo lineal (sin hilos) en protocolos TCP y para ipv4 unicamente'
     
     #para el escaneo selectivo y normal: este es el formato para estos dos tipos de escaneos
     global q
@@ -182,6 +185,7 @@ def cuerpo_scan(lista,ip,timeout,json_):
             break
 
 def abrir_arch(txt):
+    'inicia la lectura de archivos .txt'
     logging.info('iniciando lectura de archivo...')
     try:
         with open(txt,'r') as arch:
@@ -197,12 +201,13 @@ def borrar_arch():
         with open(nombre_b,'w') as arch:
             arch.write('')
         print(Fore.GREEN+f'\n[*] archivo borrado: {nombre_b}\n')
-        logging.info('se elimino el contenido del registro d eips encontradas')
+        logging.info('se elimino el contenido del registro de ips encontradas')
     except:
         logging.error('hubo un error en borrar_arch')
         
 def ayuda():
-    
+    'abre panel de ayuda con el parametro -h'
+
     h = Fore.WHITE+'''
 scip es una herramienta de reconocimiento de redes desarrollada por Urb@n con busqueda en shodan y escaneo de redes, entre otras cosas
 
@@ -258,7 +263,9 @@ parametros:
                                              - escaneo rapido
                                              - escaneo mas silencioso
                                              - permite ver puertos filtrados 
-                                             (solo linux, requiere sudo)      '''
+                                             (solo linux, requiere sudo)
+                                                   
+ NOTA : la herramienta no es capaz de escanear puertos ipv6 por el momento, ademas solo se tienen en cuenta protocolos TCP       '''
 
     
     print(f'\n{data.logo}')
@@ -267,7 +274,7 @@ parametros:
     
 
 def informacion(ip,puerto):
-    #esta funcion es la que gestiona la informacion que proviene de fingerprint y en base a los resultados da un mensaje en consola
+    'esta funcion es la que gestiona la informacion que proviene de fingerprint y en base a los resultados da un mensaje en consola'
     
     print(Fore.CYAN+f'\n[*] se intenta obtener informacion en el puerto {puerto} ...\n')
     fing= fingerprint(ip,puerto)
@@ -285,6 +292,7 @@ puerto:{puerto}\n\r\n\r* respuesta del servidor:\n''')
     print(Fore.WHITE+'#################################################') 
 
 def confiabilidad_ip(ip):
+    'consulta la si una direccion ip es confiable o esta en lista negra'
     url = 'https://barracudacentral.org/lookups/lookup-reputation'
     if requests.get(url).status_code == 200:
         print(Fore.WHITE+'\n[*] confiabilidad de la ip:')
@@ -323,6 +331,7 @@ def confiabilidad_ip(ip):
             return 'no valida' 
 
 def rastreo(url,json_):
+    'envia peticiones a urls expuestas al hacer OSINT a una ip'
     logging.info('iniciando rastreo...')
     try:
         datos = {'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36'}
@@ -358,8 +367,8 @@ puertos por defecto abiertos:
         logging.critical('ocurrio un error en la creacion del informe')
 
 def detener():
+    'funcion que detiene la herramienta en ciertos contextos'
     global q,n,deten
-   
     tamaño_list_i = len(puertos)
     tiempo = time.time()
     if params.param.buscar == None:
@@ -399,6 +408,7 @@ def detener():
             logging.warning('pequeño error en funcion detener')
 
 def latencia(ip):
+    'hace ping 3 veces y devuelve el promedio de las latencias'
     try:
         latencias = []
         ping_ = 0
@@ -414,6 +424,7 @@ def latencia(ip):
         return 1
     
 def scan_normal(ip,timeout):
+    'inicia el escaneo normal (escaneo lineal basado en latencias)'
     logging.info('iniciando escaneo normal...')
     dato = cargar_json('data_puertos.json')
     print(Fore.WHITE+f'[+] escaneando puertos TCP de la ip: {ip}')
@@ -439,7 +450,7 @@ def scan_selectivo(ip,timeout,puertos):
 
 def scan_agresivo(ip,puerto,timeout,json_):
     
-    
+    'escaneos con muchos hilos (escaneos agresivos), mas rapidos, para protocolos TCP e ipv4 unicamente'
     try:   
         
         s = socket.socket()       
@@ -469,6 +480,8 @@ def agregar_arch(datos):
         ip_lista.write(datos)
 
 def buscar():
+    'funcion responsable de la busqueda de direcciones IPV4 publicas (solo ipv4s)'
+
     global deten
     try:
         elementos=[]
@@ -503,6 +516,8 @@ def buscar():
         deten = True
 
 def timeout(latencia_prom):
+    'recibe una latencia y en base a eso calcula un tiempo de espera entre puerto y puerto cuando se usan escaneos lineales'
+
     logging.info('seteando timeout...')
     print(f'[*] latencia promedio:{latencia_prom} seg')
     #para redes relativamente rapidas
@@ -519,6 +534,8 @@ def timeout(latencia_prom):
 ipv4= []
 lock = Lock()  
 def descubrir_red(ip,i,timeout):
+    'descubre direcciones ipv4 dentro de la red local'
+
     logging.info('descubriendo la red...')
     
     direc = ip.replace('x',str(i))

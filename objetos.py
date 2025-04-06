@@ -13,8 +13,8 @@ import logging
 
 init()
 
-#objeto ip que solo se utiliza con el crawler
-class Ip():
+
+class Ip(): #objeto ip que solo se utiliza con el crawler
     def __init__(self):
         self.__ip = None
         self.validado = False

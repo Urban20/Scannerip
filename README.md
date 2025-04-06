@@ -25,7 +25,7 @@ El objetivo de esto es crear una herramienta muy versatil en el campo de las red
 
 -recopilacion de informacion de una ip (geolocalizacion,isp,region,puertos abiertos registrados por shodan)
 
--tiene varias estrategias para obtener puertos abiertos
+-tiene varias estrategias para obtener puertos abiertos (por el momento solo es capaz de escanear protocolos TCP y direcciones ipv4)
 
 -descubre ips dentro de una red privada e intenta obtener informacion de los dispositivos conectados ( esta ultima funcion esta disponible en Linux y termux)
 

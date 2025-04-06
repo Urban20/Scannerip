@@ -1,7 +1,8 @@
 from threading import Lock
 from colorama import Fore,init
 
-'este modulo contiene algunas de las variables que se utilizan en el script'
+'este modulo contiene informacion de ciertas listas'
+
 init()
 cerradura = Lock()
 

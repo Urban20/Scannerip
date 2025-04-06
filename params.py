@@ -1,5 +1,6 @@
 import argparse
 
+'argumentos en linea de comando que usa la herramienta'
 
 args = argparse.ArgumentParser(description='scip3 es una herramienta de reconocimiento de redes desarrollada por Urb@n con busqueda en shodan y escaneo de redes, entre otras cosas',
 usage='escribir el parametro -h o --ayuda para ver las funciones disponibles',add_help=False)
