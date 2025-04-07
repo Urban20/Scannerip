@@ -13,11 +13,12 @@ from logging import info,critical,warning
 from scapy_escan import *
 import subprocess as sp
 
-# cree esta herramienta con el objetivo de obtener informacion rapida de las direcciones IP
-# pensado en un inicio para windows pero compatible a Linux y con mejoras para este
-# intento mejorar y mantener el codigo dentro de lo posible
+# Cree esta herramienta con el objetivo de obtener informacion rapida de las direcciones IP
+# Pensado en un inicio para windows pero compatible a Linux y con mejoras para este
+# Intento mejorar y mantener el codigo dentro de lo posible
 
-# nota: el codigo probablemente funcione mejor en entornos Linux aunque es compatible tambien en Windows
+# Nota: el codigo probablemente funcione mejor en entornos Linux aunque es compatible tambien en Windows
+# El codigo puede modificarse libremente e incluso estoy abierto a contribuciones
 # Autor: Urb@n (Urban20, Matias Urbaneja)
 
 'este modulo contiene el script principal el cual llama a todos los modulos necesarios para su funcionamiento'
@@ -25,10 +26,15 @@ import subprocess as sp
 init()
 
 def inicio_scan(msg):
-    #solo se llama cuando son escaneos normales o selectivos 
+    '''
+    funcion de inicio de escaneos normales o selectivos
+    * maneja las latencias y el timeout
+    * solo se llama cuando son escaneos normales o selectivos
+    ''' 
     print(Fore.WHITE+f'\n\n#################################################')
     print(Fore.WHITE+msg)
-    print('\n[+] "esc" para salir\n')
+    if system() == 'Windows':
+        print('\n[+] "esc" para salir\n')
     if param.timeout == None:
         lat_prom= latencia(param.ip)
         tim = timeout(lat_prom)
@@ -51,7 +57,10 @@ else:
     t = param.timeout
 
 def crear_crawler(ip_):
-    #solo se llama al realizar OSINT con shodan
+    '''
+    crea el objeto crawler
+    * solo se llama al realizar OSINT con shodan'''
+
     info('creando objeto crawler...')
     
     print(Fore.RED+'\n[+] iniciando crawler')

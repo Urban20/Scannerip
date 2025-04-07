@@ -23,7 +23,7 @@ El objetivo de esto es crear una herramienta muy versatil en el campo de las red
 
 ## Caracteristicas:
 
--recopilacion de informacion de una ip (geolocalizacion,isp,region,puertos abiertos registrados por shodan)
+-recopilacion de informacion de una ip (geolocalizacion,isp,region,puertos abiertos registrados por shodan) (ipv4/ipv6)
 
 -tiene varias estrategias para obtener puertos abiertos (por el momento solo es capaz de escanear protocolos TCP y direcciones ipv4)
 

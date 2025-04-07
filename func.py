@@ -14,7 +14,7 @@ import json
 import logging
 from scapy_escan import *
 if system() == 'Windows':
-    import keyboard
+    from keyboard import is_pressed
 
 
 'este modulo contiene las funciones que se utilizan en el script'
@@ -48,7 +48,7 @@ nombre_b= cont_op['arch-ips-encontradas']
 
 print(f'\n[*] log >> {op}, entrar a opciones.json para modificarlo\n')
 
-logging.basicConfig(filename='registro.log',
+logging.basicConfig(filename='registro.log', # maneja el formato del archivo log
                     level=nivel,
                     datefmt='%a, %d %b %Y %H:%M:%S',
                     format='%(asctime)s-%(msg)s')
@@ -197,6 +197,7 @@ def abrir_arch(txt):
         logging.critical(f'hubo un error en la apertura de un archivo')
 
 def borrar_arch():
+    'una pequeña funcion para borrar contenido de archivos'
     try:
         with open(nombre_b,'w') as arch:
             arch.write('')
@@ -209,7 +210,7 @@ def ayuda():
     'abre panel de ayuda con el parametro -h'
 
     h = Fore.WHITE+'''
-scip es una herramienta de reconocimiento de redes desarrollada por Urb@n con busqueda en shodan y escaneo de redes, entre otras cosas
+Scip (Scannerip) es una herramienta de reconocimiento de redes desarrollada por Urb@n (Matias Urbaneja) con busqueda en shodan (OSINT de ips publicas) , escaneo de puertos, entre otras cosas
 
 parametros:
   -h, --ayuda                             *muestra este mensaje
@@ -292,7 +293,7 @@ puerto:{puerto}\n\r\n\r* respuesta del servidor:\n''')
     print(Fore.WHITE+'#################################################') 
 
 def confiabilidad_ip(ip):
-    'consulta la si una direccion ip es confiable o esta en lista negra'
+    'consulta si una direccion ip es confiable o esta en lista negra'
     url = 'https://barracudacentral.org/lookups/lookup-reputation'
     if requests.get(url).status_code == 200:
         print(Fore.WHITE+'\n[*] confiabilidad de la ip:')
@@ -331,7 +332,7 @@ def confiabilidad_ip(ip):
             return 'no valida' 
 
 def rastreo(url,json_):
-    'envia peticiones a urls expuestas al hacer OSINT a una ip'
+    'envia peticiones a urls expuestas al hacer OSINT a una ip con shodan'
     logging.info('iniciando rastreo...')
     try:
         datos = {'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36'}
@@ -348,6 +349,7 @@ def rastreo(url,json_):
         return Fore.RED+'* no responde'
 
 def crear_informe(ip,puerto,titulo):
+    'crea los informes que van a ser guardados en los txt'
     logging.info('creando informe...')
     try:
         informe=f'''
@@ -366,8 +368,22 @@ puertos por defecto abiertos:
     except Exception as e:
         logging.critical('ocurrio un error en la creacion del informe')
 
+def mecanismo_detener():
+    '''
+    pequeña funcion que maneja la escucha de la tecla escape para detener el funcionamiento en escaneos sin multihilos
+    * relacionada a funcion detener( )
+    * se utiliza en Windows'''
+
+    if is_pressed('esc'): #se activa cuando se detecta la tecla ESC
+        print(Fore.RED+'[+] deteniendo')
+        logging.info('deteniendo herramienta')
+        
+        return True # retorna boleanos que van a ser interpretados por detener()
+    else:
+        return False
+
 def detener():
-    'funcion que detiene la herramienta en ciertos contextos'
+    'funcion que detiene la herramienta en ciertos contextos, tambien maneja el progreso en escaneos normales'
     global q,n,deten
     tamaño_list_i = len(puertos)
     tiempo = time.time()
@@ -376,15 +392,12 @@ def detener():
             
             try:
                 if system() == 'Windows':
-                    if keyboard.is_pressed('esc'):
-                        print(Fore.RED+'[*] deteniendo')
-                        
-                        deten = True
+                    deten = mecanismo_detener()
             except AttributeError:
                 pass
 
             finally:
-                
+                # maneja el porcentaje de la carga de escaneos normales
                 val_prog = (q/tamaño_list_i) * 100
                 porcentaje =f'{str(val_prog)[:5]}%'
                     
@@ -397,34 +410,30 @@ def detener():
                     deten= True
             
     else:
-        try:
+        try: #aplica para la busqueda de ips publicas, escucha en la techa ESC para ver si se detiene la funcion de busqueda
+            while n < params.param.buscar and not deten and system() == 'Windows':
             
-                while n < params.param.buscar and not deten and system() == 'Windows':
-                    if keyboard.is_pressed('esc'):
-                        print(Fore.RED+'[+] deteniendo')
-                        logging.info('deteniendo herramienta')
-                        deten = True
+                deten = mecanismo_detener()
+
         except AttributeError:
             logging.warning('pequeño error en funcion detener')
 
 def latencia(ip):
     'hace ping 3 veces y devuelve el promedio de las latencias'
-    try:
-        latencias = []
-        ping_ = 0
 
-        for i in range(3):
-            latencias.append(ping(ip,timeout=1))
+    try:
         
-        for x in latencias:
-            ping_+=x
-            
+        ping_ = 0
+        for i in range(3):
+            ping_+=ping(ip,timeout=1)    
         return ping_/3
+    
     except TypeError:
         return 1
     
 def scan_normal(ip,timeout):
     'inicia el escaneo normal (escaneo lineal basado en latencias)'
+    
     logging.info('iniciando escaneo normal...')
     dato = cargar_json('data_puertos.json')
     print(Fore.WHITE+f'[+] escaneando puertos TCP de la ip: {ip}')

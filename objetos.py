@@ -14,12 +14,14 @@ import logging
 init()
 
 
-class Ip(): #objeto ip que solo se utiliza con el crawler
+class Ip():
+    'objeto ip que solo se utiliza con el crawler'
     def __init__(self):
         self.__ip = None
         self.validado = False
     
     def validacion(self,ip):
+        'valida las ips para ver si efectivamente son correctas'
         logging.info('validando ip...')
         try:
             ip_num = socket.getaddrinfo(ip,None)[-1][-1][0].strip()
@@ -38,6 +40,8 @@ class Ip(): #objeto ip que solo se utiliza con el crawler
             logging.critical('ocurrio un error durante la validacion de ip')
 
     def informacion(self):
+        'encargada de la obtencion de informacion de las ips a traves de las apis'
+
         logging.info('intentando obtener informacion de ip...')
         try:
             if self.validado and self.__ip != None:
@@ -68,6 +72,7 @@ class Ip(): #objeto ip que solo se utiliza con el crawler
             logging.critical('ocurrio un error al consumir las apis apis')
 
     def reputacion(self):
+        'metodo encargado de la reputacion de la ip'
         logging.info('intentando obtener reputacion de ip...')
         try:
             if self.validado:
@@ -88,7 +93,10 @@ class Ip(): #objeto ip que solo se utiliza con el crawler
 ip = Ip()
 
 class Bot_Crawler():
-
+    '''un crawler es un bot que rastrea informacion de un sitio web, esto se encarga de:
+    * webscraping
+    * revisar la accesibilidad de las urls expuestas de las ips osinteadas'''
+    
     def __init__(self,ip):
         self.ip = ip
         self.html = BeautifulSoup(requests.get(f'https://www.shodan.io/host/{self.ip}').text,'html.parser')
@@ -98,6 +106,7 @@ class Bot_Crawler():
 
 
     def scrapping_shodan(self):
+        'metodo encargado de la obtencion de informacion en shodan (scraping web)'
         logging.info('se intenta hacer scraping en shodan...')
 
         if  self.status == 200 and ip.validado and self.ip != None:
@@ -127,6 +136,7 @@ class Bot_Crawler():
             
                
     def obtener_links(self):
+        'obtiene los links que expone shodan de las ips'
         logging.info('se inicia la obtencion de enlaces...')
         status = func.cargar_json('status.json')
         if ip.validado and self.status == 200:
@@ -143,6 +153,7 @@ class Bot_Crawler():
                 logging.critical('ocurrio un error en obtener_links')
 
 class Ipv4():
+    'esta clase se encarga de las ipv4 PRIVADAS unicamente'
     def __init__(self,ip):
         self.ipv4 = ip
 
@@ -152,6 +163,7 @@ class Ipv4():
         self.__compania = None
 
     def ttl(self):
+        'metodo que intenta obtener el ttl de una ipv4 privada '
         logging.info('calculando ttl...')
         try:
             out= sp.check_output(['ping','-c','1',self.ipv4],text=True)
@@ -160,6 +172,8 @@ class Ipv4():
             return None
 
     def obtener_mac(self):
+        'metodo que intenta obtener las direcciones MAC de las ipv4 privadas'
+
         logging.info('obteniendo direcciones mac...')
         try:
             out =str(sp.check_output(['ip','neigh','show',self.ipv4],text=True))
@@ -170,6 +184,7 @@ class Ipv4():
         except:
             return None
     def obtener_nombre(self):
+        'metodo que intenta obtener el nombre del dispositivo de la red'
         logging.info('obteniendo nombres...')
         try:
             self.__nombre = re.search(r'(\w+)\.',socket.gethostbyaddr(self.ipv4)[0].lower()).group(1).strip()
@@ -178,6 +193,7 @@ class Ipv4():
         return self.__nombre
     
     def obtener_compania(self):
+        'metodo que intenta obtener la compania fabricante del producto'
         logging.info('obteniendo informacion de las companias de los dispositivos...')
         try:
             api= requests.get(f'https://www.macvendorlookup.com/api/v2/{self.mac}').json()
