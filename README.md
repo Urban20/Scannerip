@@ -4,9 +4,11 @@
 
   <img alt="Static Badge" src="https://img.shields.io/badge/hecho_en-Python-blue?style=flat-square&logo=python&logoColor=white">
   <img alt="Static Badge" src="https://img.shields.io/badge/Espa%C3%B1ol-yellow%3Fstyle%3Dflat?style=social">
-  <img alt="Static Badge" src="https://img.shields.io/badge/Integrado-con_Shodan-red?style=flat-square">
+  <img alt="Static Badge" src="https://img.shields.io/badge/integrado_con-shodan-red?style=flat-square">
   <img alt="Static Badge" src="https://img.shields.io/badge/compatible_con-Windows-magenta?style=flat-square&">
-  <img alt="Static Badge" src="https://img.shields.io/badge/compatible_con-Linux-green?style=flat-square&">
+  <img alt="Static Badge" src="https://img.shields.io/badge/compatible_con-Linux-green?style=flat-square&logo=linux&logoColor=black">
+  <img alt="Static Badge" src="https://img.shields.io/badge/compatible_con-Termux-black?style=flat-square&logo=gnometerminal&logoColor=black">
+
 
 </p>
 
