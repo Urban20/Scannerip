@@ -108,7 +108,8 @@ try:
             json = cargar_json('data_puertos.json')
             print(f'[+] num de hilos: {hilo_}\n\rtimeout:{t}')
             with ThreadPoolExecutor(max_workers=hilo_) as ejec:
-                ip = gethostbyname(param.ip)
+                
+                ip = gethostbyname(param.ip) # en un futuro quiza se cambie para incorporar ipv6
                 for x in puertos:
                     
                     ejec.submit(scan_agresivo,ip,x,t,json)
@@ -150,7 +151,9 @@ try:
             
             scan= inicio_scan(msg='escaneo normal en curso...')
 
-            threading.Thread(target=detener).start()
+            if system() == 'Windows':
+                threading.Thread(target=detener).start()
+
             scan_normal(param.ip,scan)   
             
         else:
@@ -214,9 +217,13 @@ try:
     elif param.buscar != None and not param.normal and param.ip == None:
         info('iniciando busqueda de ips publicas...')
         print(Fore.GREEN+'\n[+] rastreando ips publicas...\n')
-        threading.Thread(target=detener).start()
-    
-        while n < param.buscar and not deten:
+
+        if system() == 'Windows': # llama a detener solo en windows para asegurar compatibilidad en Termux (android)
+
+            threading.Thread(target=detener).start() #llama a la funcion detener encargada de monitoriar la presion de escape
+            print('\n\033[0m[+] "esc" para salir de la busqueda\n')
+
+        while n < param.buscar and not func.deten:
             
             busq = buscar()
             
@@ -228,12 +235,13 @@ try:
             if str(input(Fore.WHITE+'[1] guardar informacion >> ')).strip() == '1':
                 for ip in lista_ips:
                     agregar_arch(ip)
-                print(Fore.GREEN+'\n[+] la informacion fue guardada\n')
+                print(Fore.GREEN+'\n[+] la informacion fue guardada\033[0m\n')
 
             else:
-                print(Fore.RED+'\n[+] la informacion no fue guardada\n')
+                print(Fore.RED+'\n[+] la informacion no fue guardada\033[0m\n')
 
         info('busqueda finalizada')    
+
         func.deten = True
 
     if param.info and p_abiertos:
@@ -252,7 +260,7 @@ try:
     if param.lectura:
         abrir_arch(nombre_arch)     
 except KeyboardInterrupt:
-    deten = True
+    func.deten = True
     exit(1)
 except PermissionError:
     print(Fore.RED+'\n[*] no soy root\n')
@@ -261,6 +269,6 @@ except Exception as e:
     critical(f'error critico desconocido en el flujo principal')
     exit(1)
 finally:
-    warning('la herramienta fue finalizada')
+    
     exit(0)
     
