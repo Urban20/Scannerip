@@ -85,19 +85,19 @@ else:
 try:
     #acciones de los parametros-----------------
     if param.shodan:
-        try:
-            if param.ip != None:
-                if ',' in param.ip:
-                    for x in param.ip.split(','):
-                        crear_crawler(x)   
-                else:       
-                    crear_crawler(param.ip)
-            else:
-                print(Fore.RED+'[+] especificar parametro [-ip]')
-                
-        except AttributeError:
-            print(Fore.RED+'\n[+] sin informacion al respecto\n')
+        
+        if param.ip != None:
             
+            for x in param.ip.split(','):
+                try:
+                    crear_crawler(ip_=x)  
+
+                except AttributeError:
+                    print(Fore.RED+'\n[+] sin informacion al respecto\033[0m\n')
+                    continue
+            
+        else:
+            print(Fore.RED+'[+] especificar parametro [-ip]')   
         
     if param.agresivo:
 

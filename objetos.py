@@ -69,7 +69,7 @@ class Ip():
 #################################################''')
 
         except Exception as e:
-            logging.critical('ocurrio un error al consumir las apis apis')
+            logging.critical('ocurrio un error al consumir las apis (metodo informacion, clase IP)')
 
     def reputacion(self):
         'metodo encargado de la reputacion de la ip'
