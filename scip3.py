@@ -223,13 +223,13 @@ try:
             threading.Thread(target=detener).start() #llama a la funcion detener encargada de monitoriar la presion de escape
             print('\n\033[0m[+] "esc" para salir de la busqueda\n')
 
-        while n < param.buscar and not func.deten:
+        while func.ips_encontradas < param.buscar and not func.deten:
             
             busq = buscar()
             
             if busq != None:
                 print(Fore.WHITE+busq)
-                n+=1
+                func.ips_encontradas+=1
             
         if not param.guardar:
             if str(input(Fore.WHITE+'[1] guardar informacion >> ')).strip() == '1':

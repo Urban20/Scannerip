@@ -64,7 +64,7 @@ python scip3.py -ip www.google.com -a ---> realiza un escaneo "agresivo". Se tra
 
 python scip3.py -ip www.google.com -n ---> es un escaneo mas lento pero mas fiable, hace ping a la ip y se basa en dicha latencia para regular la velocidad del escaneo, puede usarse con -i para obtener encabezados de paginas web, tambien puede usarse con -t para proporcionar manualmente un timeout
 
---> para el caso de python scip3.py es igual solo que se reemplaza la palabra scip
+
 
 python scip3.py -ip www.google.com -syn ---> escaneos syn (solo linux), se puede acompañar de -t y -r
 
