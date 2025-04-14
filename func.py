@@ -61,7 +61,7 @@ deten = False
 
 puertos_escaneados = 0 # contador --> lleva un conteo de puertos escaneados al escanear con un escaneo normal de handshake completo
 
-ips_encontradas = 0 # contador --> cuenta la cantidad de ips encontradas, cuando es mayor al parametro de buscar, detiene la funcion de busqueda
+ips_encontradas = 0 # contador --> cuenta la cantidad de ips encontradas, cuando es mayor al arg de buscar, detiene la funcion de busqueda
 
 def cargar_json(archivo):
     'funcion utilizada para la lectura de archivos .json'
@@ -73,7 +73,7 @@ def cargar_json(archivo):
     except Exception as e:
         logging.critical(f'error en la carga de uno o varios archivos JSON')
 
-#opciones del parametro -m
+#opciones del arg -m
 if params.param.masivo:
     
     puertos = list(range(1,65535))
@@ -207,66 +207,83 @@ def borrar_arch():
         logging.error('hubo un error en borrar_arch')
         
 def ayuda():
-    'abre panel de ayuda con el parametro -h'
+    'abre panel de ayuda con el argumento -h'
 
     h = Fore.WHITE+'''
 Scip (Scannerip) es una herramienta de reconocimiento de redes desarrollada por Urb@n (Matias Urbaneja) con busqueda en shodan (OSINT de ips publicas) , escaneo de puertos, entre otras cosas
 
-parametros:
-  -h, --ayuda                             *muestra este mensaje
+argumentos:
+  
+\033[31mPARAMETRO/S PRINCIPAL/ES:\033[0m
 
-  -s, --shodan                            *busqueda automatica en shodan
+  -h, --ayuda                              *muestra este mensaje
 
-  -n, --normal                            *escaneo de puertos con el metodo normal
+  -ip IP, --ip IP                          *ip objetivo para el ataque \033[33m(se necesita la mayoria del tiempo)\033[0m
 
-  -a, --agresivo                          *escaneo agresivo: escanea todos los puertos en simultaneo
+\033[31mOSINT:\033[0m
+
+  -s, --shodan                             *busqueda automatica en shodan
+
+\033[31mTIPOS DE ESCANEOS:\033[0m
+
+  -n, --normal                             *escaneo de puertos con el metodo normal
+
+  -a, --agresivo                           *escaneo agresivo: escanea todos los puertos en simultaneo
                                             Desventaja/s: puede fallar
                                             Ventaja/s: extremadamente rapido
+  -p SELECTIVO, --selectivo SELECTIVO      *para escanear puertos puntuales
 
-  -p SELECTIVO, --selectivo SELECTIVO     *para escanear puertos puntuales
+  --syn                                    *escaneos de handsake incompleto:
+                                             - escaneo rapido
+                                             - escaneo mas silencioso
+                                             - permite ver puertos filtrados 
+                                             (solo linux, requiere sudo)
 
-  -ip IP, --ip IP                         *ip objetivo para el ataque
+\033[31mARGUMENTOS OPCIONALES (acompañan a los demas argumentos):\033[0m
 
-  -b BUSCAR, --buscar BUSCA               *Uso: este parametro se utiliza solo, su uso es -b [numero]
-                                           funcion: busqueda de ips, puede utilizarse junto con -g para guardar
+  -m, --masivo                             *Uso: este argumento se combina con los parametros -a y -n
+                                            funcion: escanea TODOS los puertos existentes. 
+                                            Desventaja/s: escaneo mucho mas lento, puede ser de alta carga para el pc si se lo combina con -a
+                                            Ventaja/s: permite escanear todos los puertos
 
-  -g, --guardar                           *Uso: este parametro se combina con el parametro -b
-                                           funcion: guardar ips en lista
+  -g, --guardar                            *Uso: este argumento se combina con el argumento -b
+                                            funcion: guardar ips en lista   
 
-  -i, --info                              *Uso: este parametro se combina con -a y -n
+  -t, --timeout                            *setea un timeout especifico cuando se utiliza el argumento -n
+
+  -hl, --hilo                              *se utiliza con -a 
+                                            setea la cantidad de hilos en paralelo (16 hilos por defecto)
+
+  -i, --info                               *Uso: este argumento se combina con -a y -n
                                            funcion: muestra informacion de los encabezados en caso de encontrarse un puerto que apunta a un html
 
-  -l, --lectura                           *lee el archivo .txt donde el usuario guarda las ips escaneadas y muestra su contenido
+  -r, --reintento                          * argumento para escaneos syn, setea el numeros de reintentos para recibir informacion de un puerto  
+        
+  -no_filtrado                             * muestra unicamente los puertos abiertos durante el escaneo syn 
 
-  -t, --timeout                           *setea un timeout especifico cuando se utiliza el parametro -n
+\033[31mARGUMENTOS PARA EL MANEJO DE ARCHIVOS:\033[0m
 
-  -m, --masivo                            *Uso: este parametro se combina con los parametros -a y -n
-                                           funcion: escanea TODOS los puertos existentes. 
-                                           Desventaja/s: escaneo mucho mas lento, puede ser de alta carga para el pc si se lo combina con -a
-                                           Ventaja/s: permite escanear todos los puertos
+  -g, --guardar                            *Uso: este argumento se combina con el argumento -b
+                                           funcion: guardar ips en lista
+
+  -l, --lectura                            *lee el archivo .txt donde el usuario guarda las ips escaneadas y muestra su contenido
 
   -cls, --borrar                           *borra el contenido del archivo .txt donde se guardan las ips encontradas
  
   -abrir, --abrir                          *lee el archivo .txt donde se guardan las ips encontradas
     
+\033[31mARGUMENTOS DE BUSQUEDAS DE IPS:\033[0m
+
+  -b BUSCAR, --buscar BUSCA                *Uso: este argumento se utiliza solo, su uso es -b [numero]
+                                            funcion: busqueda de ips, puede utilizarse junto con -g para guardar
+
   -d, --descubrir                          *se utiliza para descubrir ips privadas dentro de la red.
                                             ejemplo de uso:
-                                           -ip 192.168.0.x (ip con "x" para buscar variaciones de la ip en ese sitio) -d (parametro para usar la funcion) 
-    
-  -hl, --hilo                              *se utiliza con -a 
-                                            setea la cantidad de hilos en paralelo (16 hilos por defecto)
-                                                
-  -r, --reintento                          * parametro para escaneos syn, setea el numeros de reintentos para recibir informacion de un puerto  
-        
-  -no_filtrado                             * muestra unicamente los puertos abiertos durante el escaneo syn           
-        
-  --syn                                    * escaneos de handsake incompleto:
-                                             - escaneo rapido
-                                             - escaneo mas silencioso
-                                             - permite ver puertos filtrados 
-                                             (solo linux, requiere sudo)
+                                            -ip 192.168.0.x (ip con "x" para buscar variaciones de la ip en ese sitio) -d (argumento para usar la funcion)
+                                            -por el momento solo disponible para prefijos de red /24 (cubre la mayoria de las redes privadas, sobretodo domesticas) 
+                                                             
                                                    
- NOTA : la herramienta no es capaz de escanear puertos ipv6 por el momento, ademas solo se tienen en cuenta protocolos TCP       '''
+ \033[33mNOTA : la herramienta no es capaz de escanear puertos ipv6 por el momento, ademas solo se tienen en cuenta protocolos TCP\033[0m       '''
 
     
     print(f'\n{data.logo}')

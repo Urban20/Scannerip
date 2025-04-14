@@ -19,6 +19,9 @@ antes de ejecutar la herramienta se debe abrir un terminal en el directorio y ej
 `pip install -r requirements.txt`
 esto instala todas las librerias necesarias para la ejecucion del codigo
 
+una vez que la herramienta cuente con todas las dependencias necesarias se puede usar el parametro en consola:
+`python scip3.py -h` para ver todas las opciones que tiene la herramienta
+
 ## Escaner de red
 scip es una herramienta que integra OSINT para redes informaticas , escaneos de red de forma activa utilizando socket , busquedas de ips de forma aleatorias con sus respectivos puertos y geolocalizacion.
 El objetivo de esto es crear una herramienta muy versatil en el campo de las redes informaticas.

@@ -97,7 +97,7 @@ try:
                     continue
             
         else:
-            print(Fore.RED+'[+] especificar parametro [-ip]')   
+            print(Fore.RED+'[+] especificar argumento [-ip]')   
         
     if param.agresivo:
 
@@ -120,7 +120,7 @@ try:
             preg_informe()
         
         else:
-            print(Fore.RED+'\n[+] especificar parametro [-ip]\n')        
+            print(Fore.RED+'\n[+] especificar argumento [-ip]\n')        
     
     #escaneo SYN
     elif param.syn and param.ip != None:
@@ -157,7 +157,7 @@ try:
             scan_normal(param.ip,scan)   
             
         else:
-            print(Fore.RED+'[+] especificar parametro [-ip]') 
+            print(Fore.RED+'[+] especificar argumento [-ip]') 
 
     #escaneo selectivo
     elif param.selectivo:
@@ -169,7 +169,7 @@ try:
             scan_selectivo(param.ip,scan,param.selectivo)
             
         else:
-            print(Fore.RED+'\n[+] especificar parametro [-ip]\n')
+            print(Fore.RED+'\n[+] especificar argumento [-ip]\n')
     
     #para descubrir ips privadas
     elif param.ip != None and param.descubrir:
@@ -180,7 +180,8 @@ try:
         else:
             timeout_ = 4
     
-        print(Fore.GREEN+'[+] rastreando ips privadas: ')
+        print(Fore.GREEN+'[+] rastreando ips privadas: \n[*] descubriendo para prefijos de red de 24 (255 hosts en total)\n')
+        
         with ThreadPoolExecutor(max_workers=150) as ejec:
             for x in range(1,255):
                
