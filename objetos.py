@@ -8,8 +8,9 @@ from bs4 import BeautifulSoup
 import subprocess as sp
 import re
 import logging
+import params
 
-'este modulo contiene las clases que se utilizan en el script'
+'este modulo contiene las clases que se utilizan en la herramienta'
 
 init()
 
@@ -24,7 +25,16 @@ class Ip():
         'valida las ips para ver si efectivamente son correctas'
         logging.info('validando ip...')
         try:
-            ip_num = socket.getaddrinfo(ip,None)[-1][-1][0].strip()
+        
+            if params.param.V6:# se fuerza a la herramienta a traducir hosts en ipv6
+                ipv6_num= socket.getaddrinfo(ip,None)[-1][-1][0].strip() 
+                if ipaddress.IPv6Address(ipv6_num):
+                    ip_num = ipv6_num
+                else:
+                    raise socket.gaierror    
+            else:
+                ip_num = socket.gethostbyname(ip) #fuerza la traduccion de dominios a ipv4
+
             if ipaddress.ip_address(ip_num).is_global:
                 self.validado = True
                 self.__ip = ip_num # atributo privado
@@ -34,7 +44,7 @@ class Ip():
             
         except socket.gaierror:
 
-            print(Fore.RED+'\n[!] el dominio/ip proporcionado es incorrecto\n')
+            print(Fore.RED+'\n[!] el dominio/ip proporcionado tiene un formato incorrecto\n* para escanear ipv6, agregar argumento -V6')
 
         except Exception as e:
             logging.critical('ocurrio un error durante la validacion de ip')
@@ -73,18 +83,19 @@ class Ip():
 
     def reputacion(self):
         'metodo encargado de la reputacion de la ip'
-        logging.info('intentando obtener reputacion de ip...')
         try:
             if self.validado:
-                rep = func.confiabilidad_ip(self.__ip)
-                if rep != None:
-                    match rep:
-                        case 'failure-message':
-                            print(Fore.RED+'en la lista negra')
-                        case 'no valida':
-                            print(Fore.YELLOW+'no se puede obtener la reputacion')
-                        case 'success-message':
-                            print(Fore.CYAN+'fuera de la lista negra')
+                if not params.param.V6:
+                    logging.info('intentando obtener reputacion de ip...')
+                    rep = func.confiabilidad_ip(self.__ip)
+                    if rep != None:
+                        match rep:
+                            case 'failure-message':
+                                print(Fore.RED+'en la lista negra')
+                            case 'no valida':
+                                print(Fore.YELLOW+'no se puede obtener la reputacion')
+                            case 'success-message':
+                                print(Fore.CYAN+'fuera de la lista negra')
             else:
                 print(Fore.RED+'\n[!] no se pudo obtener la reputacion: ip no validada\n')
         except Exception as e:

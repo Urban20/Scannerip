@@ -17,7 +17,7 @@ if system() == 'Windows':
     from keyboard import is_pressed
 
 
-'este modulo contiene las funciones que se utilizan en el script'
+'este modulo contiene las funciones que se utilizan en la herramienta'
 
 
 
@@ -240,6 +240,8 @@ argumentos:
                                              (solo linux, requiere sudo)
 
 \033[31mARGUMENTOS OPCIONALES (acompañan a los demas argumentos):\033[0m
+
+  -V6                                      *fuerza el uso de ipv6 cuando se hace OSINT
 
   -m, --masivo                             *Uso: este argumento se combina con los parametros -a y -n
                                             funcion: escanea TODOS los puertos existentes. 

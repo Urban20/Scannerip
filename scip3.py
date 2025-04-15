@@ -267,6 +267,7 @@ except PermissionError:
     print(Fore.RED+'\n[*] no soy root\n')
     exit(1)
 except Exception as e:
+    print(Fore.RED+f'\n[!] error en el flujo principal:\n{e}')
     critical(f'error critico desconocido en el flujo principal')
     exit(1)
 finally:
