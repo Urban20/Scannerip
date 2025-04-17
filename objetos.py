@@ -136,10 +136,22 @@ class Bot_Crawler():
                 print(f'\n#################################################')
                 print(Fore.GREEN+f'\nfecha del puerto escaneado: \033[1;37m{fech}\n')   
                 print(Fore.WHITE+f'\033[1;32mprotocolo: \033[1;37m{proto.strip()} \033[1;32mpuerto: \033[1;37m{puert.strip()}\n')
-                if re.search('html',cont.get_text().strip().lower()) and len(cont.get_text().strip()) > 650:
-                    info = 'posible pagina web'
-                elif re.search('ssh',cont.get_text().strip().lower()) and len(cont.get_text().strip()) > 650:
-                    info = 'posible servicio ssh'
+                lim_caracteres = 650
+
+                if re.search(r'camera|camara|webcam|hikvision|dahua|rtsp',cont.get_text().strip().lower()):
+                    info = '[+] posible camara IP detectada\n'
+
+                elif re.search('ftp',cont.get_text().strip().lower()) and len(cont.get_text().strip()) > lim_caracteres:
+                    info = '[+] posible protocolo FTP detectado\n'
+
+                elif re.search('smtp',cont.get_text().strip().lower()) and len(cont.get_text().strip()) > lim_caracteres:
+                    info = '[+] posible protocolo SMTP detectado (protocolo simple de transferencia de correo)\n'
+
+                elif re.search('ssh',cont.get_text().strip().lower()) and len(cont.get_text().strip()) > lim_caracteres:
+                    info = '[+] posible servicio ssh detectado\n'
+                
+                elif re.search('html',cont.get_text().strip().lower()) and len(cont.get_text().strip()) > lim_caracteres:
+                    info = '[+] posible pagina web detectada\n'
                 else:
                     info = cont.get_text().strip()
 
