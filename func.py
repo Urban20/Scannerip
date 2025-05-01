@@ -99,10 +99,15 @@ def fingerprint(ip,puerto):
     if dic == None:
         try:
             s = socket.socket()
+            
+            if params.param.timeout == None:# se gestiona el timeout para el envio de payloads
+                t_payload = 1
+            else:
+                t_payload = params.param.timeout
 
-            s.settimeout(1.5)
+            s.settimeout(t_payload)
             if s.connect_ex((ip,puerto)) == 0:
-                for x in [b'\x00',b'\x90' * 16,b'\x00\xff\x00\xff',b'USER anonymous\r\n',b'\x10\x20\x30\x40',b'test\r\n', b'\x01\x02\x03', b'GET / HTTP/1.1\r\n\r\n', b'\xff\xff\xff\xff']:
+                for x in [b'\x00',b'\x90' * 16,b'\x00\xff\x00\xff',b'USER anonymous\r\n',b'\x10\x20\x30\x40',b'test',b'test\r\n', b'\x01\x02\x03', b'GET / HTTP/1.1\r\n\r\n', b'\xff\xff\xff\xff']:
                     try:
                         s.send(x)
                         msg = s.recv(buffer)
