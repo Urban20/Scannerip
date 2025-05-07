@@ -1,4 +1,4 @@
-![logo.png](https://github.com/Urban20/escaner-de-red/blob/main/img/logo.png?raw=true)
+![logo.png](https://github.com/Urban20/Scannerip/blob/main/img/logo.png?raw=true)
 
 <p>
 
@@ -73,13 +73,13 @@ python scip3.py -ip www.google.com -syn ---> escaneos syn (solo linux), se puede
 
 ### parametros:
   
-![parametros.png](https://github.com/Urban20/escaner-de-red/blob/main/img/parametros.png?raw=true)
+![parametros.png](https://github.com/Urban20/Scannerip/blob/main/img/parametros.png?raw=true)
 
 > **algunas demostraciones graficas de como se usan algunas funciones que provee la herramienta:**
 
-![demo2.png](https://github.com/Urban20/escaner-de-red/blob/main/img/demo2.png?raw=true)
+![demo2.png](https://github.com/Urban20/Scannerip/blob/main/img/demo2.png?raw=true)
 
-![demo3.png](https://github.com/Urban20/escaner-de-red/blob/main/img/demo3.png?raw=true)
+![demo3.png](https://github.com/Urban20/Scannerip/blob/main/img/demo3.png?raw=true)
 
 > [!WARNING]
 no se recomienda poner un numero muy alto para el parametro b ya que esta funcion consume APIS con un numero finito de solicitudes por minuto, si se excede el limite se debe esperar una hora para que tu ip sea desbloqueada
