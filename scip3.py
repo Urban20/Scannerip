@@ -198,7 +198,7 @@ try:
                     print(Fore.RED+'\n[+] la ip debe contener una x al final, ejemplo "192.168.0.x"\n')
                     break
             
-            proceso.result()
+            
 
         if system() == 'Linux':
             for ip in ipv4:
@@ -212,11 +212,11 @@ try:
                 if codigo != None:
                     print(Fore.GREEN+f'\n{ip}:\n')
                     print(json.get(str(codigo)))
-                    print(Fore.CYAN+f'[*] nombre de disp. en la red: {nombre}')
+                    print(f'\033[0m[*] nombre de disp. en la red: {nombre}')
                     if mac != None:
-                        print(Fore.CYAN+f'[*] direccion mac: {mac}')
+                        print(f'\033[0m[*] direccion mac: {mac}')
                     if compania != None:
-                        print(Fore.CYAN+f'[*] compania encontrada: {compania}')
+                        print(f'\033[0m[*] compania encontrada: {compania}')
                     print('\n')
                 
         

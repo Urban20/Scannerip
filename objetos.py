@@ -219,7 +219,7 @@ class Ipv4():
         'metodo que intenta obtener la compania fabricante del producto'
         logging.info('obteniendo informacion de las companias de los dispositivos...')
         try:
-            api= requests.get(f'https://www.macvendorlookup.com/api/v2/{self.mac}').json()
+            api= requests.get(f'https://www.macvendorlookup.com/api/v2/{self.__mac}').json()
             for el in api:
                 self.__compania = str(el['company'])
                 return self.__compania
