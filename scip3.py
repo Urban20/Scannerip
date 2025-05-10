@@ -183,11 +183,17 @@ try:
         print(Fore.GREEN+'[+] rastreando ips privadas: \n[*] descubriendo para prefijos de red de 24 (255 hosts en total)\n')
         
         with ThreadPoolExecutor(max_workers=150) as ejec:
+
+            # se obtiene la direccion ipv4 de la maquina que lleva la operacion
+            s_udp = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+            s_udp.connect(('10.255.255.255',1))
+            ipv4_propia = s_udp.getsockname()[0]
+
             for x in range(1,255):
                
                 
                 if param.ip[-1] == 'x':
-                    proceso =ejec.submit(descubrir_red,param.ip,x,timeout_) 
+                    proceso =ejec.submit(descubrir_red,param.ip,x,timeout_,ipv4_propia) 
                 else:
                     print(Fore.RED+'\n[+] la ip debe contener una x al final, ejemplo "192.168.0.x"\n')
                     break
