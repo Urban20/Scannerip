@@ -13,6 +13,9 @@
 </p>
 
 
+> ⚠️ **IMPORTANTE:**
+NO me hago responsable del mal uso que se le pueda dar a la utilidad, creado para fines de experimentacion y uso etico
+
 ### Importante:
 
 antes de ejecutar la herramienta se debe abrir un terminal en el directorio y ejecutar el comando:
