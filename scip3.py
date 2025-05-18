@@ -150,11 +150,11 @@ try:
         if param.ip != None:
             
             scan= inicio_scan(msg='escaneo normal en curso...')
-
-            if system() == 'Windows':
-                threading.Thread(target=detener).start()
-
-            scan_normal(param.ip,scan)   
+            
+            carga= threading.Thread(target=detener) # hilo que maneja la carga y la detencion (detencion solo en win)
+            carga.start()
+            
+            scan_normal(param.ip,scan,carga)   
             
         else:
             print(Fore.RED+'[+] especificar argumento [-ip]') 

@@ -8,7 +8,7 @@ import data
 import time
 from bs4 import BeautifulSoup
 from ping3 import ping
-from threading import Lock
+from threading import *
 from platform import system
 import json
 import logging
@@ -379,9 +379,9 @@ def crear_informe(ip,puerto,titulo):
         informe=f'''
 ##############################
 titulo : {titulo}
-ip: {ip}
+ip / dominio: {ip}
 
-puertos por defecto abiertos:
+puertos encontrados:
 {puerto}
 ##############################
         '''
@@ -415,8 +415,9 @@ def detener():
         while not deten:
             
             try:
-                
-                deten = mecanismo_detener()
+                if system() == 'Windows':
+                    deten = mecanismo_detener()
+                else: deten = False
 
             except AttributeError:
                 pass
@@ -456,7 +457,7 @@ def latencia(ip):
     except TypeError:
         return 1
     
-def scan_normal(ip,timeout):
+def scan_normal(ip,timeout,hilo): 
     'inicia el escaneo normal (escaneo lineal basado en latencias)'
     
     logging.info('iniciando escaneo normal...')
@@ -471,9 +472,11 @@ def scan_normal(ip,timeout):
         logging.critical('ocurrio un error inesperado en el escaneo normal')
 
     finally:
-        time.sleep(1)   
+        time.sleep(1)
+        hilo.join() # para que no se pise el input con la carga
         preg_informe()
-                  
+        
+
 def scan_selectivo(ip,timeout,puertos):
     logging.info('iniciando escaneo selectivo...')
     data_p = cargar_json('data_puertos.json')
