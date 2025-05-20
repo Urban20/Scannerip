@@ -1,4 +1,6 @@
 #! /usr/bin/env -S python3
+'''codigo fuente del programa:
+* llama todas las funciones y modulos necesarios para la ejecucion del mismo'''
 
 import threading
 from func import *
@@ -21,7 +23,7 @@ import subprocess as sp
 # El codigo puede modificarse libremente e incluso estoy abierto a contribuciones
 # Autor: Urb@n (Urban20, Matias Urbaneja)
 
-'este modulo contiene el script principal el cual llama a todos los modulos necesarios para su funcionamiento'
+
 
 init()
 

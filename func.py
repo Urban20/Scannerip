@@ -1,3 +1,5 @@
+'este modulo contiene las funciones que se utilizan en la herramienta'
+
 import requests
 from colorama import Fore,init
 import socket
@@ -17,7 +19,7 @@ if system() == 'Windows':
     from keyboard import is_pressed
 
 
-'este modulo contiene las funciones que se utilizan en la herramienta'
+
 
 
 

@@ -1,3 +1,6 @@
+'''modulo donde esta el codigo responsable de manejar escaneos con scapy:
+* maneja los escaneos de syn y ack disponibles en linux '''
+
 from scapy.all import *
 import re
 from colorama import init,Fore
@@ -7,7 +10,7 @@ from data import p_abiertos
 
 init()
 
-'modulo donde esta el codigo responsable de manejar escaneos con scapy'
+
 
 if param.reintento != None:
     reintento = param.reintento

@@ -1,3 +1,8 @@
+'''este modulo contiene las clases que se utilizan en la herramienta:
+* contiene las clases de las direcciones ips y crawler 
+* en ocaciones se crean los objetos aca mismo'''
+
+
 import socket
 import ipaddress
 from platform import system
@@ -10,7 +15,6 @@ import re
 import logging
 import params
 
-'este modulo contiene las clases que se utilizan en la herramienta'
 
 init()
 
