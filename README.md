@@ -1,4 +1,6 @@
-![logo.png](https://github.com/Urban20/Scannerip/blob/main/img/logo.png?raw=true)
+<p align="center">
+  <img src="https://github.com/Urban20/Scannerip/blob/main/img/logo.png?raw=true" alt="Descripción" width="500"/>
+</p>
 
 <p>
 
@@ -13,7 +15,7 @@
 </p>
 
 
-> ⚠️ **IMPORTANTE:**
+> ⚠️ **AVISO:**
 NO me hago responsable del mal uso que se le pueda dar a la utilidad, creado para fines de experimentacion y uso etico
 
 ### Importante:
