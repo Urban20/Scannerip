@@ -100,34 +100,46 @@ def fingerprint(ip,puerto):
         
     if dic == None:
         try:
-            s = socket.socket()
+            
             
             if params.param.timeout == None:# se gestiona el timeout para el envio de payloads
                 t_payload = 1
             else:
                 t_payload = params.param.timeout
 
-            s.settimeout(t_payload)
-            if s.connect_ex((ip,puerto)) == 0:
-                for x in [b'\x00',b'\x90' * 16,b'\x00\xff\x00\xff',b'USER anonymous\r\n',b'\x10\x20\x30\x40',b'test',b'test\r\n', b'\x01\x02\x03', b'GET / HTTP/1.1\r\n\r\n', b'\xff\xff\xff\xff']:
-                    try:
-                        s.send(x)
-                        msg = s.recv(buffer)
+            for x in [b'\x00',b'\x90' * 16,b'Help\n',b'\x00\xff\x00\xff',
+                    b'USER anonymous\r\n',b'\x10\x20\x30\x40',b'test',b'test\r\n'
+                    , b'\x01\x02\x03', b'GET / HTTP/1.1\r\n\r\n',
+                    b'\xff\xff\xff\xff']:
+                try:
+                    c_payload = socket.socket()
+                    c_payload.settimeout(t_payload)
+                    if c_payload.connect_ex((ip,puerto)) == 0:
+                        c_payload.send(x)
+
+                        msg = c_payload.recv(buffer)
                         if msg == b'':
                             raise Exception
-                        else: break
-                        
-                    except TimeoutError: msg = None
-                        
-                    except:continue
+                        if msg != None:  
+                            return msg.decode()
+                    
+                except TimeoutError: msg = None
+                
+                except UnicodeDecodeError:
+                    return str(msg)
 
-                if msg != None:  
-                    return msg.decode()
+                except Exception as e:
+                    logging.info(f'hubo un problema al enviar un payload: {e} ')
+                    continue
+                finally : c_payload.close()
+
+
+               
                 
       
         except UnicodeDecodeError: return str(msg)
 
-        finally: s.close()
+        
     else:
         try:
             encabezado = ''
