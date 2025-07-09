@@ -5,3 +5,4 @@ keyboard/
 !requirements.txt
 scip.bat
 *.log
+*.bat

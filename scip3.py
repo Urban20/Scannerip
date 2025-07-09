@@ -14,6 +14,8 @@ from socket import gethostbyname
 from logging import info,critical,warning
 from scapy_escan import *
 import subprocess as sp
+from os import devnull
+import sys
 
 # Cree esta herramienta con el objetivo de obtener informacion rapida de las direcciones IP
 # Pensado en un inicio para windows pero compatible a Linux y con mejoras para este
@@ -23,6 +25,7 @@ import subprocess as sp
 # El codigo puede modificarse libremente e incluso estoy abierto a contribuciones
 # Autor: Urb@n (Urban20, Matias Urbaneja)
 
+sys.stderr = open(devnull,'w')
 
 
 init()
@@ -270,15 +273,15 @@ try:
         abrir_arch(nombre_arch)     
 except KeyboardInterrupt:
     func.deten = True
-    exit(1)
+    sys.exit(1)
 except PermissionError:
     print(Fore.RED+'\n[*] no soy root\n')
-    exit(1)
+    sys.exit(1)
 except Exception as e:
     print(Fore.RED+f'\n[!] error en el flujo principal:\n{e}')
     critical(f'error critico desconocido en el flujo principal')
-    exit(1)
+    sys.exit(1)
 finally:
     
-    exit(0)
+    sys.exit(0)
     

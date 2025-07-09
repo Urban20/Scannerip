@@ -1,7 +1,7 @@
 '''modulo donde esta el codigo responsable de manejar escaneos con scapy:
 * maneja los escaneos de syn y ack disponibles en linux '''
 
-from scapy.all import *
+from scapy.all import sr1,conf,IP,TCP
 import re
 from colorama import init,Fore
 import logging
@@ -21,7 +21,7 @@ else:
 def escaneo_ack(ip,puerto,timeout_):
     #s_ack --> hace refencia a los escaneos ack --> variable
     conf.verb = 0
-    s_ack = sr1(IP(dst=ip)/TCP(dport=puerto,flags='A'),timeout=timeout_,retry=reintento)#type: ignore
+    s_ack = sr1(IP(dst=ip)/TCP(dport=puerto,flags='A'),timeout=timeout_,retry=reintento)
     
     if s_ack == None:
         print(Fore.YELLOW+f'\n[*] puerto filtrado (paquete descartado silenciosamente) >> {puerto}\n')
@@ -33,7 +33,7 @@ def escaneo_syn(ip,puerto,timeout):
     try:
         
         conf.verb = 0
-        s_syn =  sr1(IP(dst=ip)/TCP(dport=puerto,flags='S'),timeout=timeout,retry=reintento)#type: ignore
+        s_syn =  sr1(IP(dst=ip)/TCP(dport=puerto,flags='S'),timeout=timeout,retry=reintento)
         if s_syn != None :
             if re.search('SA',str(s_syn)):
                 print(Fore.GREEN+f'\n[*] puerto abierto >> {puerto}\n')

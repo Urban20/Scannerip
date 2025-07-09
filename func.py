@@ -17,7 +17,7 @@ import logging
 from scapy_escan import *
 if system() == 'Windows':
     from keyboard import is_pressed
-
+import sys
 
 
 
@@ -29,7 +29,7 @@ try:
         cont_op = json.load(opciones)
 except:
     print(Fore.RED+'\ncofiguracion incorrecta, revisar opciones.json\n')
-    exit(1) 
+    sys.exit(1) 
 
 op = cont_op['nivel']
 
@@ -40,7 +40,7 @@ match cont_op['nivel']:
         nivel = logging.INFO
     case _:
         print(Fore.RED+'\ncofiguracion incorrecta, revisar opciones.json\n')
-        exit(1)
+        sys.exit(1)
 
 #nombre del archivo que se crea al guardar una ip escaneada
 nombre_arch = cont_op['arch-guardado-de-puertos']
