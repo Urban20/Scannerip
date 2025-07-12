@@ -1,88 +1,190 @@
-![logo.png](https://github.com/Urban20/Scannerip/blob/main/img/logo.png?raw=true)
+# Scip3 - Herramienta de Reconocimiento de Redes
 
-<p>
-
-  <img alt="Static Badge" src="https://img.shields.io/badge/hecho_en-Python-blue?style=flat-square&logo=python&logoColor=white">
-  <img alt="Static Badge" src="https://img.shields.io/badge/Espa%C3%B1ol-yellow%3Fstyle%3Dflat?style=social">
-  <img alt="Static Badge" src="https://img.shields.io/badge/integrado_con-shodan-red?style=flat-square">
-  <img alt="Static Badge" src="https://img.shields.io/badge/compatible_con-Windows-magenta?style=flat-square&">
-  <img alt="Static Badge" src="https://img.shields.io/badge/compatible_con-Linux-green?style=flat-square&logo=linux&logoColor=black">
-  <img alt="Static Badge" src="https://img.shields.io/badge/compatible_con-Termux-black?style=flat-square&logo=gnometerminal&logoColor=black">
-
-
+<p align="center">
+  <img src="https://github.com/Urban20/Scannerip/blob/main/img/logo.png?raw=true" alt="Logo del proyecto" width="600">
 </p>
 
 
-> ⚠️ **IMPORTANTE:**
-NO me hago responsable del mal uso que se le pueda dar a la utilidad, creado para fines de experimentacion y uso etico
+<p align="center">
+  <img alt="Python" src="https://img.shields.io/badge/Python-3.8+-blue?style=flat-square&logo=python&logoColor=white">
+  <img alt="Shodan" src="https://img.shields.io/badge/Integración-Shodan-red?style=flat-square">
+  <img alt="Windows" src="https://img.shields.io/badge/Windows-Compatible-magenta?style=flat-square">
+  <img alt="Linux" src="https://img.shields.io/badge/Linux-Compatible-green?style=flat-square&logo=linux&logoColor=black">
+  <img alt="Termux" src="https://img.shields.io/badge/Termux-Compatible-black?style=flat-square&logo=gnometerminal&logoColor=black">
+  <img alt="Licencia" src="https://img.shields.io/badge/Licencia-MIT-yellow?style=flat-square">
+</p>
 
-### Importante:
+> ⚠️ **ADVERTENCIA IMPORTANTE:**  
+>  No me hago responsable del mal uso que se le pueda dar este software. Usar de forma ética
 
-antes de ejecutar la herramienta se debe abrir un terminal en el directorio y ejecutar el comando:
-`pip install -r requirements.txt`
-esto instala todas las librerias necesarias para la ejecucion del codigo
-
-una vez que la herramienta cuente con todas las dependencias necesarias se puede usar el parametro en consola:
-`python scip3.py -h` para ver todas las opciones que tiene la herramienta
-
-## Escaner de red
-scip es una herramienta que integra OSINT para redes informaticas , escaneos de red de forma activa utilizando socket , busquedas de ips de forma aleatorias con sus respectivos puertos y geolocalizacion.
-El objetivo de esto es crear una herramienta muy versatil en el campo de las redes informaticas.
-
-## Caracteristicas:
-
--recopilacion de informacion de una ip (geolocalizacion,isp,region,puertos abiertos registrados por shodan) (ipv4/ipv6)
-
--tiene varias estrategias para obtener puertos abiertos (por el momento solo es capaz de escanear protocolos TCP y direcciones ipv4)
-
--descubre ips dentro de una red privada e intenta obtener informacion de los dispositivos conectados ( esta ultima funcion esta disponible en Linux y termux)
-
--busqueda aleatoria de ips con gran posibilidad de encontrar puertos abiertos
+## Tabla de Contenidos
+- [Características Principales](#características-principales)
+- [Instalación Rápida](#instalación-rápida)
+- [Modos de Operación](#modos-de-operación)
+- [Uso Avanzado](#uso-avanzado)
+- [Ejemplos Prácticos](#ejemplos-prácticos)
+- [Capturas](#capturas)
+- [Limitaciones](#limitaciones-actuales)
+- [Apoyá el Proyecto](#apoyá-el-proyecto)
 
 
-### escaneos de hadshake completo (libreria socket):
+## Características Principales
 
--escaner agresivo >> escaneo rapido
+### 🔍 Reconocimiento Avanzado
+- Geolocalización precisa de IPs públicas
+- Análisis de reputación (listas negras)
+- Detección de servicios y dispositivos
+- Extracción de metadatos de encabezados HTTP
+- Soporte parcial para IPv6 en operaciones OSINT
 
--escaner normal >> escaneo mas lento pero en ocaciones mas fiable
+### ⚡ Múltiples Estrategias de Escaneo
+| Modo | Protocolo | Velocidad | Requisitos |
+|------|-----------|-----------|------------|
+| **Normal** | TCP | ⭐⭐ | Ninguno |
+| **Agresivo** | TCP | ⭐⭐⭐⭐ | Multihilos |
+| **Selectivo** | TCP | ⭐⭐⭐ | Puertos específicos |
+| **SYN/ACK** | TCP | ⭐⭐⭐⭐ | Linux + Root |
 
--escaner selectivo >> escanea solo los puertos que elijas 
+### 🕸️ Integración con Shodan
+- Detección de servicios expuestos
+- Identificación de dispositivos IoT
+- Extracción de URLs relacionadas
+- Análisis de historial de escaneos
 
-### escaneo de handshake incompleto (solo linux)(requiere sudo):
+### 📊 Gestión de Resultados
+- Generación de informes personalizados
+- Guardado automático en formato TXT
+- Sistema de logging configurable
+- Visualización en tiempo real
+- Filtrado avanzado de resultados
 
--escaner syn >> mas silencioso, permite ver que puertos estan filtrados (parametro >> -syn o --syn)
+## Instalación Rápida
 
-agregar -no_filtrado para mostrar solamente los puertos abiertos
+```bash
+# Clonar repositorio
+git clone https://github.com/Urban20/Scannerip.git
+cd Scannerip
 
-## Uso:
+# Instalar dependencias
+pip install -r requirements.txt
 
-el script se usa en linea de comandos y su escritura es la siguiente:
+# Ejecutar con ayuda
+python scip3.py -h
+```
 
-python scip3.py -ip [ip objetivo] (puede ser un dominio)  [parametro]
+## Modos de Operación
+
+### 1. OSINT con Shodan (`-s`)
+```bash
+python scip3.py -ip target.com -s
+```
+- Geolocalización
+- Reputación de IP
+- Puertos históricos
+- Servicios detectados
+- URLs relacionadas
+
+### 2. Escaneo Agresivo (`-a`)
+```bash
+python scip3.py -ip 192.168.1.1 -a -hl 200
+```
+- Multihilos (default: 100)
+- Timeout configurable (`-t`)
+- Fingerprinting automático (`-i`)
+
+### 3. Escaneo SYN (`--syn`)
+```bash
+sudo python scip3.py -ip 10.0.0.1 --syn --no_filtrado
+```
+- Requiere root en Linux
+- Modo sigiloso
+- Detección de puertos filtrados
+- Opción `--no_filtrado` para solo abiertos
+
+### 4. Descubrimiento de Red (`-d`)
+```bash
+python scip3.py -ip 192.168.0.x -d
+```
+- Identificación de dispositivos locales
+- Detección de fabricantes
+- Obtención de nombres de host
+- Análisis de TTL para identificar SO
+
+## Uso Avanzado
+
+### Parámetros Clave
+| Parámetro | Descripción | Ejemplo |
+|-----------|-------------|---------|
+| `-m` | Escanear todos los puertos (1-65535) | `-a -m` |
+| `-i` | Envío de payloads  | `-n -i` |
+| `-g` | Guardar resultados | `-b 50 -g` |
+| `-V6` | Forzar IPv6 en OSINT | `-s -V6` |
+| `-r` | Reintentos (escaneos SYN) | `--syn -r 5` |
+| `-hl` | Hilos paralelos | `-a -hl 200` |
+
+### Gestión de Archivos
+```bash
+# Leer ips encontradas
+python scip3.py --abrir
+
+# Borrar historial
+python scip3.py --borrar
+
+# Generar informe personalizado
+[Durante escaneo] > Ingresar título cuando se solicite
+```
+
+## Ejemplos Prácticos
+
+**1. Auditoría completa de un objetivo:**
+```bash
+python scip3.py -ip example.com -s -a -i
+```
+
+**2. Escaneo sigiloso en red local:**
+```bash
+sudo python scip3.py -ip 192.168.1.105 --syn -t 0.2 --no_filtrado
+```
+
+**3. Descubrir dispositivos en la red:**
+```bash
+python scip3.py -ip 192.168.0.x -d
+```
+
+**4. Buscar 20 IPs públicas con puertos abiertos:**
+```bash
+python scip3.py -b 20 -g
+```
+
+## Capturas
+
+### Panel de Ayuda (`-h`)
+![Panel de Ayuda](https://github.com/Urban20/Scannerip/blob/main/img/parametros.png?raw=true)
+
+### Escaneo con flag -n (escaneo normal)
+![Shodan Integration](https://github.com/Urban20/Scannerip/blob/main/img/demo2.png?raw=true)
+
+### Descubrimiento de direcciones ipv4 públicas
+![Device Discovery](https://github.com/Urban20/Scannerip/blob/main/img/demo3.png?raw=true)
 
 
+## Limitaciones Actuales
+- ❌ Soporte limitado para IPv6
+- ❌ Escaneos UDP no implementados
+- ❌ Alto consumo de recursos en modo agresivo
+- ❌ Requiere root para escaneos SYN
 
-### ejemplos:
+> ⚠️ **Nota sobre uso de APIs:**  
+> El parámetro `-b` consume APIs con límites de solicitudes. Usar valores mayores a 50 puede causar bloqueos temporales.
 
-python scip3.py -ip www.google.com -s ---> esto busca automaticamente en shodan, busca su geolocalizacion y su reputacion
+## ⭐ Apoyá el Proyecto
 
-python scip3.py -ip www.google.com -a ---> realiza un escaneo "agresivo". Se trata de un escaneo en multihilo lo cual lo hace muy rapido pero no siempre funciona
+Si te gusta mi proyecto, dale una estrellita
 
-python scip3.py -ip www.google.com -n ---> es un escaneo mas lento pero mas fiable, hace ping a la ip y se basa en dicha latencia para regular la velocidad del escaneo, puede usarse con -i para obtener encabezados de paginas web, tambien puede usarse con -t para proporcionar manualmente un timeout
+### Con esto me ayudas a:
 
+- 📈 Aumentar la visibilidad del proyecto
 
+- 🚀 Motivarme a seguir desarrollando mejoras
 
-python scip3.py -ip www.google.com -syn ---> escaneos syn (solo linux), se puede acompañar de -t y -r
-
-### parametros:
-  
-![parametros.png](https://github.com/Urban20/Scannerip/blob/main/img/parametros.png?raw=true)
-
-> **algunas demostraciones graficas de como se usan algunas funciones que provee la herramienta:**
-
-![demo2.png](https://github.com/Urban20/Scannerip/blob/main/img/demo2.png?raw=true)
-
-![demo3.png](https://github.com/Urban20/Scannerip/blob/main/img/demo3.png?raw=true)
-
-> [!WARNING]
-no se recomienda poner un numero muy alto para el parametro b ya que esta funcion consume APIS con un numero finito de solicitudes por minuto, si se excede el limite se debe esperar una hora para que tu ip sea desbloqueada
+- 🔍 Permitir que más personas lo descubran
