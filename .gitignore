@@ -6,3 +6,4 @@ keyboard/
 scip.bat
 *.log
 *.bat
+env/
