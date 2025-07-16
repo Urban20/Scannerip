@@ -7,3 +7,4 @@ scip.bat
 *.log
 *.bat
 env/
+scip3/

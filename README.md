@@ -115,7 +115,7 @@ python scip3.py -ip 192.168.0.x -d
 ### Parámetros Clave
 | Parámetro | Descripción | Ejemplo |
 |-----------|-------------|---------|
-| `-m` | Escanear todos los puertos (1-65535) | `-a -m` |
+| `-M` | Escanear todos los puertos (1-65535) | `-a -M` |
 | `-i` | Envío de payloads  | `-n -i` |
 | `-g` | Guardar resultados | `-b 50 -g` |
 | `-V6` | Forzar IPv6 en OSINT | `-s -V6` |

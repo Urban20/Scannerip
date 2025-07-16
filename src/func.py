@@ -75,7 +75,7 @@ def cargar_json(archivo):
     except Exception as e:
         logging.critical(f'error en la carga de uno o varios archivos JSON')
 
-#opciones del arg -m
+#opciones del arg -M
 if params.param.masivo:
     
     puertos = list(range(1,65535))
@@ -262,7 +262,7 @@ argumentos:
 
   -V6                                      *fuerza el uso de ipv6 cuando se hace OSINT
 
-  -m, --masivo                             *Uso: este argumento se combina con los parametros -a y -n
+  -M, --masivo                             *Uso: este argumento se combina con los parametros -a y -n
                                             funcion: escanea TODOS los puertos existentes. 
                                             Desventaja/s: escaneo mucho mas lento, puede ser de alta carga para el pc si se lo combina con -a
                                             Ventaja/s: permite escanear todos los puertos
