@@ -25,8 +25,16 @@
 - [Ejemplos Prácticos](#ejemplos-prácticos)
 - [Capturas](#capturas)
 - [Limitaciones](#limitaciones-actuales)
-- [Apoyá el Proyecto](#apoyá-el-proyecto)
+- [Apoyá el Proyecto](#-apoyá-el-proyecto)
 
+
+## ¿Tenés alguna pregunta o idea que te gustaria compartir?
+
+#### Podés exponerla en :
+
+<a href="https://github.com/Urban20/Scannerip/discussions">
+  <img src="https://img.shields.io/badge/Discusiones-%23EA4C89.svg?style=social&logo=github" alt="Discussions" width=120>
+</a>
 
 ## Características Principales
 
