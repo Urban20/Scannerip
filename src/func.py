@@ -584,20 +584,17 @@ def timeout(latencia_prom):
 
 ipv4= []
 lock = Lock()  
-def descubrir_red(ip,i,timeout,mi_ipv4):
+def descubrir_red(ip,timeout,mi_ipv4):
     'descubre direcciones ipv4 dentro de la red local'
 
     logging.info('descubriendo la red...')
     
-    direc = ip.replace('x',str(i))
-    ping_=ping(direc,timeout=timeout)
+    ping_=ping(ip,timeout=timeout)
     if ping_ != None and ping_ != False:
-        if ipaddress.ip_address(direc).is_private:
-
-            if int(mi_ipv4.split('.')[-1]) == i:
-
-                print(Fore.YELLOW+direc + ' (este dispositivo)')
-            else:
-                print(Fore.WHITE+direc)
-                with lock:
-                    ipv4.append(direc)
+       
+        if ip == mi_ipv4:
+            print(Fore.YELLOW+ip + ' (este dispositivo)')
+        else:
+            print(Fore.WHITE+ip)
+            with lock:
+                ipv4.append(ip)

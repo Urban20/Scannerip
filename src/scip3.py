@@ -87,8 +87,7 @@ else:
     hilo_ = param.hilo
 
 
-try:
-    #acciones de los parametros-----------------
+def main():
     if param.shodan:
         
         if param.ip != None:
@@ -177,8 +176,7 @@ try:
             print(Fore.RED+'\n[+] especificar argumento [-ip]\n')
     
     #para descubrir ips privadas
-    elif param.ip != None and param.descubrir:
-        
+    elif param.descubrir:
         
         if param.timeout != None:
             timeout_ = param.timeout
@@ -194,17 +192,10 @@ try:
             s_udp.connect(('10.255.255.255',1))
             ipv4_propia = s_udp.getsockname()[0]
 
-            for x in range(1,255):
+            for ip in ipaddress.ip_network(param.ip):
                
-                
-                if param.ip[-1] == 'x':
-                    proceso =ejec.submit(descubrir_red,param.ip,x,timeout_,ipv4_propia) 
-                else:
-                    print(Fore.RED+'\n[+] la ip debe contener una x al final, ejemplo "192.168.0.x"\n')
-                    break
-            
-            
-
+                ejec.submit(descubrir_red,str(ip),timeout_,ipv4_propia) 
+               
         if system() == 'Linux':
             for ip in ipv4:
             
@@ -271,17 +262,22 @@ try:
 
     if param.lectura:
         abrir_arch(nombre_arch)     
-except KeyboardInterrupt:
-    func.deten = True
-    sys.exit(1)
-except PermissionError:
-    print(Fore.RED+'\n[*] no soy root\n')
-    sys.exit(1)
-except Exception as e:
-    print(Fore.RED+f'\n[!] error en el flujo principal:\n{e}')
-    critical(f'error critico desconocido en el flujo principal')
-    sys.exit(1)
-finally:
-    
-    sys.exit(0)
-    
+
+
+
+if __name__ == '__main__':
+    try:
+    #acciones de los parametros-----------------
+        main()
+
+    except PermissionError:
+        print(Fore.RED+'\n[*] no soy root\n')
+        sys.exit(1)
+    except Exception as e:
+        print(Fore.RED+f'\n[!] error en el flujo principal:\n{e}')
+        critical(f'error critico desconocido en el flujo principal')
+        sys.exit(1)
+    finally:
+        
+        sys.exit(0)
+        
