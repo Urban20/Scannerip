@@ -300,9 +300,8 @@ argumentos:
 
   -d, --descubrir                          *se utiliza para descubrir ips privadas dentro de la red.
                                             ejemplo de uso:
-                                            -ip 192.168.0.x (ip con "x" para buscar variaciones de la ip en ese sitio) -d (argumento para usar la funcion)
-                                            -por el momento solo disponible para prefijos de red /24 (cubre la mayoria de las redes privadas, sobretodo domesticas) 
-                                                             
+                                           -ip 192.168.0.0/24 -d (siendo "-d" el argumento para usar la funcion)
+                            
                                                    
  \033[33mNOTA : la herramienta no es capaz de escanear puertos ipv6 por el momento, ademas solo se tienen en cuenta protocolos TCP\033[0m       '''
 

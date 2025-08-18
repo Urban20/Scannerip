@@ -111,9 +111,11 @@ sudo python scip3.py -ip 10.0.0.1 --syn --no_filtrado
 
 ### 4. Descubrimiento de Red (`-d`)
 ```bash
-python scip3.py -ip 192.168.0.x -d
+python scip3.py -ip 192.168.0.0/24 -d 
 ```
 - Identificación de dispositivos locales
+
+Linux:
 - Detección de fabricantes
 - Obtención de nombres de host
 - Análisis de TTL para identificar SO
@@ -156,7 +158,7 @@ sudo python scip3.py -ip 192.168.1.105 --syn -t 0.2 --no_filtrado
 
 **3. Descubrir dispositivos en la red:**
 ```bash
-python scip3.py -ip 192.168.0.x -d
+python scip3.py -ip 192.168.0.0/24 -d
 ```
 
 **4. Buscar 20 IPs públicas con puertos abiertos:**
