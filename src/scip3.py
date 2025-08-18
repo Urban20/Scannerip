@@ -25,11 +25,6 @@ import sys
 # El codigo puede modificarse libremente e incluso estoy abierto a contribuciones
 # Autor: Urb@n (Urban20, Matias Urbaneja)
 
-sys.stderr = open(devnull,'w')
-
-
-init()
-
 def inicio_scan(msg):
     '''
     funcion de inicio de escaneos normales o selectivos
@@ -55,11 +50,7 @@ if system() == 'Linux':
 else:
     usuario = None
 
-#t es el timeout para los escaneos agresivos
-if param.timeout == None:
-    t = 0.5
-else:
-    t = param.timeout
+
 
 def crear_crawler(ip_):
     '''
@@ -104,6 +95,12 @@ def main():
             print(Fore.RED+'[+] especificar argumento [-ip]')   
         
     if param.agresivo:
+
+         #t es el timeout para los escaneos agresivos
+        if param.timeout == None:
+            t = 0.5
+        else:
+            t = param.timeout
 
         if param.ip != None:
             print(Fore.WHITE+'''\n\n#################################################''')
@@ -181,9 +178,9 @@ def main():
         if param.timeout != None:
             timeout_ = param.timeout
         else:
-            timeout_ = 4
+            timeout_ = 1
     
-        print(Fore.GREEN+'[+] rastreando ips privadas: \n[*] descubriendo para prefijos de red de 24 (255 hosts en total)\n')
+        print(Fore.GREEN+'[+] rastreando ips privadas:\n')
         
         with ThreadPoolExecutor(max_workers=150) as ejec:
 
@@ -266,17 +263,20 @@ def main():
 
 
 if __name__ == '__main__':
+
     try:
+        sys.stderr = open(devnull,'w')
+        init()
     #acciones de los parametros-----------------
         main()
 
     except PermissionError:
         print(Fore.RED+'\n[*] no soy root\n')
-        sys.exit(1)
+        
     except Exception as e:
-        print(Fore.RED+f'\n[!] error en el flujo principal:\n{e}')
+        print(Fore.RED+f'{e}\n')
         critical(f'error critico desconocido en el flujo principal')
-        sys.exit(1)
+        
     finally:
         
         sys.exit(0)

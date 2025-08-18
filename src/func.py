@@ -323,7 +323,7 @@ def informacion(ip,puerto):
 #################################################
 puerto:{puerto}\n\r\n\r* respuesta del servidor:\n''')
     if fing != None and fing != '':
-        print(f'\033[1;32m{fing}')
+        print(f'\n{fing}\n')
     
     else:
         print(Fore.RED+'[X] sin informacion, no se recibio respuesta\n')
