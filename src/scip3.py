@@ -109,7 +109,7 @@ def main():
             gopy.go_agresivo(param.ip)
             if param.info:
                 for puerto in gopy.leer_puertos_go():
-                    informacion(ip=param.ip,puerto=puerto) 
+                    informacion(ip=param.ip,puerto=int(puerto)) 
                       
    
         else:
