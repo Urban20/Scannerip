@@ -10,12 +10,12 @@ from data import *
 from objetos import *
 from concurrent.futures import ThreadPoolExecutor
 from platform import system
-from socket import gethostbyname
-from logging import info,critical,warning
+from logging import info,critical
 from scapy_escan import *
 import subprocess as sp
 from os import devnull
 import sys
+import gopy
 
 # Cree esta herramienta con el objetivo de obtener informacion rapida de las direcciones IP
 # Pensado en un inicio para windows pero compatible a Linux y con mejoras para este
@@ -106,20 +106,12 @@ def main():
             print(Fore.WHITE+'''\n\n#################################################''')
             info('escaneo agresivo iniciado...')
             print(Fore.WHITE+'[+] escaneo agresivo en curso...')
-            json = cargar_json('data_puertos.json')
-            print(f'[+] num de hilos: {hilo_}\n\rtimeout:{t}')
-            with ThreadPoolExecutor(max_workers=hilo_) as ejec:
-                
-                ip = gethostbyname(param.ip) # en un futuro quiza se cambie para incorporar ipv6
-                for x in puertos:
-                    
-                    ejec.submit(scan_agresivo,ip,x,t,json)
-
-            if not p_abiertos:
-                print(Fore.RED+'\n[+] ningun puerto encontrado\n')        
-               
-            preg_informe()
-        
+            gopy.go_agresivo(param.ip)
+            if param.info:
+                for puerto in gopy.leer_puertos_go():
+                    informacion(ip=param.ip,puerto=puerto) 
+                      
+   
         else:
             print(Fore.RED+'\n[+] especificar argumento [-ip]\n')        
     

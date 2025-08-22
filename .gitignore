@@ -8,3 +8,6 @@ scip.bat
 *.bat
 env/
 scip3/
+bin/
+*.exe
+*.temp

@@ -311,7 +311,7 @@ argumentos:
     print(f'{h}\n')
     
 
-def informacion(ip,puerto):
+def informacion(ip : str,puerto : int):
     'esta funcion es la que gestiona la informacion que proviene de fingerprint y en base a los resultados da un mensaje en consola'
     
     print(Fore.CYAN+f'\n[*] se intenta obtener informacion en el puerto {puerto} ...\n')
