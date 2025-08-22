@@ -80,7 +80,7 @@ if params.param.masivo:
 else:
     puertos = list(cargar_json('puertos.json')['lista'])
 
-def fingerprint(ip,puerto):
+def fingerprint(ip,puerto): # NO llamar esta funcion directamente, usar informacion
     'intenta obtener informacion de puertos abiertos a traves de payloads especificos'
     logging.info('iniciando fingerprint...')
     buffer = 1024
