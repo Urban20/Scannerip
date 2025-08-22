@@ -51,7 +51,6 @@ else:
     usuario = None
 
 
-
 def crear_crawler(ip_):
     '''
     crea el objeto crawler
@@ -71,13 +70,6 @@ def crear_crawler(ip_):
     crawler.scrapping_shodan()
     crawler.obtener_links()
 
-# hilos por defecto
-if param.hilo == None:
-    hilo_= 100
-else:
-    hilo_ = param.hilo
-
-
 def main():
     if param.shodan:
         
@@ -95,18 +87,12 @@ def main():
             print(Fore.RED+'[+] especificar argumento [-ip]')   
         
     if param.agresivo:
-
-         #t es el timeout para los escaneos agresivos
-        if param.timeout == None:
-            t = 0.5
-        else:
-            t = param.timeout
-
+    
         if param.ip != None:
             print(Fore.WHITE+'''\n\n#################################################''')
             info('escaneo agresivo iniciado...')
             print(Fore.WHITE+'[+] escaneo agresivo en curso...')
-            gopy.go_agresivo(param.ip)
+            gopy.go_agresivo(ip=param.ip)
             if param.info:
                 for puerto in gopy.leer_puertos_go():
                     informacion(ip=param.ip,puerto=int(puerto)) 
@@ -130,7 +116,7 @@ def main():
                     latencia_ = latencia(param.ip)
                     t = timeout(latencia_)
                 for p in puertos:
-                    proceso =escaneo_syn(ip=param.ip,puerto=p,timeout=t)
+                    escaneo_syn(ip=param.ip,puerto=p,timeout=t)
 
             else:
                 raise PermissionError

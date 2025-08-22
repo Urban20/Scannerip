@@ -9,7 +9,6 @@ import (
 	"time"
 )
 
-const HILOS = 3000
 const TIMEOUT = time.Second * 1
 
 func Escaneo(ip string, puerto int) string {
@@ -36,6 +35,7 @@ func Archivar(puerto int) {
 func main() {
 
 	ip := os.Args[1]
+	HILOS, _ := strconv.Atoi(os.Args[2])
 	fmt.Printf("[+] ip objetivo >> %s\n\n", ip)
 	wg := sync.WaitGroup{}
 	lim := make(chan struct{}, HILOS)
@@ -56,6 +56,6 @@ func main() {
 
 	}
 	wg.Wait()
-	fmt.Println("finalizado")
+	fmt.Println("[+] finalizado")
 
 }

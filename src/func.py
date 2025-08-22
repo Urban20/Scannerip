@@ -20,9 +20,6 @@ if system() == 'Windows':
 import sys
 
 
-
-
-
 #cargar las opciones del log
 try:
     with open('opciones.json','r') as opciones:
@@ -497,33 +494,7 @@ def scan_selectivo(ip,timeout,puertos):
     cuerpo_scan(ip=ip,lista=eleccion,timeout=timeout,json_=data_p)
     if not data.p_abiertos:
         print(Fore.RED+'\nningun puerto encontrado\n')
-
-def scan_agresivo(ip,puerto,timeout,json_):
-    
-    'escaneos con muchos hilos (escaneos agresivos), mas rapidos, para protocolos TCP e ipv4 unicamente'
-    try:   
-        
-        s = socket.socket()       
-        s.settimeout(timeout)
-
-        try:
-            if s.connect_ex((ip.strip(),puerto)) == 0:
-                print(Fore.GREEN+f'[*] puerto abierto >> {puerto}\n servicio mas probable: {json_.get(str(puerto))}\n\r')
-                with data.cerradura:
-                    data.p_abiertos.append(puerto)
-            
-        except PermissionError:
-            pass
-        except OSError:
-            logging.warning('OSError durante la conexion del socket en scan_agresivo')
-                 
-        finally:
-            s.close()
-               
-    except ValueError:
-        pass
-    except: logging.error('error desconocido en scan_agresivo')
-         
+  
 #la funcion para agregar arhivos, corresponde a buscar
 def agregar_arch(datos):
     with open(nombre_b,'a') as ip_lista:

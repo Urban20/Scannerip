@@ -1,6 +1,5 @@
 *.txt
 __pycache__/
-android/
 keyboard/
 !requirements.txt
 scip.bat
