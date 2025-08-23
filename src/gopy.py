@@ -2,7 +2,6 @@
 import subprocess
 import params
 import platform
-import os
 import sys
 
 if platform.system() == 'Windows':
@@ -20,7 +19,7 @@ def leer_puertos_go():
                 yield linea.strip()
             
     except FileNotFoundError:
-        print(f'no se encuentra el archivo temporal {TEMP}')
+        ...
 
 
 def go_agresivo(ip : str):
@@ -31,5 +30,4 @@ def go_agresivo(ip : str):
     except FileNotFoundError:
         print('\nse debe disponer del binario para escaneos agresivos (.exe o binario de Linux segun corresponda)\n')
         sys.exit(1)
-    finally :
-        os.remove(TEMP)
+    

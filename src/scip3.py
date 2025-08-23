@@ -13,7 +13,7 @@ from platform import system
 from logging import info,critical
 from scapy_escan import *
 import subprocess as sp
-from os import devnull
+from os import devnull,remove
 import sys
 import gopy
 
@@ -96,7 +96,7 @@ def main():
             if param.info:
                 for puerto in gopy.leer_puertos_go():
                     informacion(ip=param.ip,puerto=int(puerto)) 
-                      
+            remove(gopy.TEMP)          
    
         else:
             print(Fore.RED+'\n[+] especificar argumento [-ip]\n')        
