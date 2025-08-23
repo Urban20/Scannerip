@@ -509,8 +509,8 @@ def scan_agresivo(ip,puerto,timeout,json_):
         try:
             if s.connect_ex((ip.strip(),puerto)) == 0:
                 print(Fore.GREEN+f'[*] puerto abierto >> {puerto}\n servicio mas probable: {json_.get(str(puerto))}\n\r')
-                with data.cerradura:
-                    data.p_abiertos.append(puerto)
+                
+                data.p_abiertos.append(puerto)
             
         except PermissionError:
             pass
