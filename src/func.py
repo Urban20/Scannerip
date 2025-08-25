@@ -589,8 +589,7 @@ def descubrir_red(ip,timeout,mi_ipv4):
     logging.info('descubriendo la red...')
     
     ping_=ping(ip,timeout=timeout)
-    if ping_ != None and ping_ != False:
-       
+    if ping_ != None and ping_ != False:           
         if ip == mi_ipv4:
             print(Fore.YELLOW+ip + ' (este dispositivo)')
         else:

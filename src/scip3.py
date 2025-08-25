@@ -194,7 +194,7 @@ def main():
                 ejec.submit(descubrir_red,str(ip),timeout_,ipv4_propia) 
                
         if system() == 'Linux':
-            for ip in ipv4:
+            for ip in func.ipv4:
             
                 ipv4 = Ipv4(ip=ip)
                 codigo = ipv4.ttl()
