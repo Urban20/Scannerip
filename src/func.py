@@ -541,15 +541,15 @@ def buscar():
 
         ip = ipaddress.ip_address('.'.join(elementos))
         if ip.is_global:
-            geo= requests.get(f'http://www.geoplugin.net/json.gp?ip={ip}').json()
+            geo= requests.get(f'https://api.ip2location.io/?ip={ip}').json()
             shodan= requests.get(f'https://internetdb.shodan.io/{ip}').json()
         
             if list(shodan['ports']):
 
                 info_b= f'''
-    ip: {geo['geoplugin_request']}
-    pais: {geo['geoplugin_countryName']}
-    estado/prov: {geo['geoplugin_region']}
+    ip: {geo['ip']}
+    pais: {geo['country_name']}
+    estado/prov: {geo['region_name']}
     puertos: {shodan['ports']}
 
     '''         
@@ -564,7 +564,7 @@ def buscar():
     except Exception as e:
         logging.error('error inesperado')
         deten = True
-
+        
 def timeout(latencia_prom):
     'recibe una latencia y en base a eso calcula un tiempo de espera entre puerto y puerto cuando se usan escaneos lineales'
 
