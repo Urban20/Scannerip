@@ -59,9 +59,9 @@ class Ip():
         logging.info('intentando obtener informacion de ip...')
         try:
             if self.validado and self.__ip != None:
-                ip_api = requests.get(f'http://ip-api.com/json/{self.__ip}')
+                
                 shodan_api = requests.get(f'https://internetdb.shodan.io/{self.__ip}')
-                geo = requests.get(f'http://www.geoplugin.net/json.gp?ip={self.__ip}')
+                geo = requests.get(f'https://api.ip2location.io/?ip={self.__ip}')
                 if shodan_api.status_code == 200:
                     print(Fore.GREEN+f'\nINFO:')
                     print(Fore.WHITE+f'''
@@ -71,15 +71,14 @@ class Ip():
 -nombre de host: {shodan_api.json().get('hostnames')}
 -tipo de dispositivo: {shodan_api.json().get('tags')}
 #################################################''')
-                if geo.status_code == 200 and ip_api.status_code == 200:
+                if geo.status_code == 200:
                     print(Fore.GREEN+f'\nGEOLOCALIZACION:')
                     print(Fore.WHITE+f'''
 #################################################
--pais: {geo.json().get('geoplugin_countryName')}
--ciudad: {geo.json().get('geoplugin_city')}
--estado/prov: {geo.json().get('geoplugin_regionName')}
--ISP: {ip_api.json().get('isp')}
--org: {ip_api.json().get('org')}
+-pais: {geo.json().get('country_name')}
+-ciudad: {geo.json().get('city_name')}
+-estado/prov: {geo.json().get('region_name')}
+-org: {geo.json().get('as')}
 #################################################''')
 
         except Exception as e:

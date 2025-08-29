@@ -7,7 +7,7 @@ from colorama import Fore,init
 
 
 init()
-cerradura = Lock()
+
 
 
 p_abiertos= [] # lista usada para guardar puertos abiertos
