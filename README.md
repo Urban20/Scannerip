@@ -28,6 +28,8 @@
 - [Apoyá el Proyecto](#-apoyá-el-proyecto)
 
 
+## Video explicativo : https://www.youtube.com/watch?v=gAwBVcfHidc&t=614s
+
 ## ¿Tenés alguna pregunta o idea que te gustaria compartir?
 
 #### Podés exponerla en :
