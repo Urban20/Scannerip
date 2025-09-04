@@ -16,9 +16,9 @@ from escaneos.scapy_escan import *
 import subprocess as sp
 from os import devnull,remove
 import sys
-import escaneos.agresivo
 import escaneos.lineales
 import archivos.archivos
+import gopy
 
 # Cree esta herramienta con el objetivo de obtener informacion rapida de las direcciones IP
 # Pensado en un inicio para windows pero compatible a Linux y con mejoras para este
