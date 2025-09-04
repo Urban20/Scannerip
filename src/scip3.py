@@ -90,6 +90,11 @@ def main():
             print(Fore.RED+'[+] especificar argumento [-ip]')   
         
     if param.agresivo:
+
+        try:
+            remove(gopy.TEMP)  
+        except FileNotFoundError:
+            ...
     
         if param.ip != None:
             print(Fore.WHITE+'''\n\n#################################################''')
@@ -99,7 +104,7 @@ def main():
             if param.info:
                 for puerto in gopy.leer_puertos_go():
                     informacion(ip=param.ip,puerto=int(puerto)) 
-            remove(gopy.TEMP)          
+                    
    
         else:
             print(Fore.RED+'\n[+] especificar argumento [-ip]\n')        
