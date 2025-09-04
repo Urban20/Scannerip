@@ -2,7 +2,6 @@
 * lista usada para guardar puertos abiertos (p_abiertos)
 * lista de ips publicas encontradas (lista_ips)'''
 
-from threading import Lock
 from colorama import Fore,init
 
 
