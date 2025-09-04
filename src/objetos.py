@@ -5,8 +5,7 @@
 
 import socket
 import ipaddress
-from platform import system
-from colorama import Fore,init
+from colorama import Fore
 import requests
 import func 
 from bs4 import BeautifulSoup
@@ -14,9 +13,6 @@ import subprocess as sp
 import re
 import logging
 import params
-
-
-init()
 
 
 class Ip():

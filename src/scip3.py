@@ -4,18 +4,21 @@
 
 import threading
 from func import *
-from colorama import init,Fore
+from colorama import Fore
 from params import *
 from data import *
 from objetos import *
 from concurrent.futures import ThreadPoolExecutor
 from platform import system
+from socket import gethostbyname
 from logging import info,critical
-from scapy_escan import *
+from escaneos.scapy_escan import *
 import subprocess as sp
 from os import devnull,remove
 import sys
-import gopy
+import escaneos.agresivo
+import escaneos.lineales
+import archivos.archivos
 
 # Cree esta herramienta con el objetivo de obtener informacion rapida de las direcciones IP
 # Pensado en un inicio para windows pero compatible a Linux y con mejoras para este
@@ -130,10 +133,10 @@ def main():
             
             scan= inicio_scan(msg='escaneo normal en curso...')
             
-            carga= threading.Thread(target=detener) # hilo que maneja la carga y la detencion (detencion solo en win)
+            carga= threading.Thread(target=escaneos.lineales.detener) # hilo que maneja la carga y la detencion (detencion solo en win)
             carga.start()
             
-            scan_normal(param.ip,scan,carga)   
+            escaneos.lineales.scan_normal(param.ip,scan,carga)   
             
         else:
             print(Fore.RED+'[+] especificar argumento [-ip]') 
@@ -145,7 +148,7 @@ def main():
         
             scan= inicio_scan(msg='[+] escaneo selectivo en curso...')
 
-            scan_selectivo(param.ip,scan,param.selectivo)
+            escaneos.lineales.scan_selectivo(param.ip,scan,param.selectivo)
             
         else:
             print(Fore.RED+'\n[+] especificar argumento [-ip]\n')
@@ -179,7 +182,7 @@ def main():
                 nombre = ipv4.obtener_nombre()
                 mac  = ipv4.obtener_mac()
                 compania = ipv4.obtener_compania()
-                json = cargar_json('ttl.json')
+                json = archivos.archivos.cargar_json('ttl.json')
                 if codigo != None:
                     print(Fore.GREEN+f'\n{ip}:\n')
                     print(json.get(str(codigo)))
@@ -198,21 +201,21 @@ def main():
 
         if system() == 'Windows': # llama a detener solo en windows para asegurar compatibilidad en Termux (android)
 
-            threading.Thread(target=detener).start() #llama a la funcion detener encargada de monitoriar la presion de escape
+            threading.Thread(target=escaneos.lineales.detener).start() #llama a la funcion detener encargada de monitoriar la presion de escape
             print('\n\033[0m[+] "esc" para salir de la busqueda\n')
 
-        while func.ips_encontradas < param.buscar and not func.deten:
+        while escaneos.lineales.ips_encontradas < param.buscar and not escaneos.lineales.deten:
             
-            busq = buscar()
+            busq = buscar(escaneos.lineales.deten)
             
             if busq != None:
                 print(Fore.WHITE+busq)
-                func.ips_encontradas+=1
+                escaneos.lineales.ips_encontradas+=1
             
         if not param.guardar:
             if str(input(Fore.WHITE+'[1] guardar informacion >> ')).strip() == '1':
                 for ip in lista_ips:
-                    agregar_arch(ip)
+                    archivos.archivos.agregar_arch(ip)
                 print(Fore.GREEN+'\n[+] la informacion fue guardada\033[0m\n')
 
             else:
@@ -220,7 +223,7 @@ def main():
 
         info('busqueda finalizada')    
 
-        func.deten = True
+        escaneos.lineales.deten = True
 
     if param.info and p_abiertos:
         for x in p_abiertos:
@@ -230,13 +233,13 @@ def main():
         ayuda()
 
     if param.borrar:
-        borrar_arch()
+        archivos.archivos.borrar_arch()
 
     elif param.abrir:
-        abrir_arch(nombre_b)
+        archivos.archivos.abrir_arch(archivos.archivos.nombre_b)
 
     if param.lectura:
-        abrir_arch(nombre_arch)     
+        archivos.archivos.abrir_arch(archivos.archivos.nombre_arch)     
 
 
 
@@ -244,7 +247,8 @@ if __name__ == '__main__':
 
     try:
         sys.stderr = open(devnull,'w')
-        init()
+    
+        
     #acciones de los parametros-----------------
         main()
 
