@@ -13,7 +13,7 @@ import subprocess as sp
 import re
 import logging
 import params
-
+import archivos.archivos
 
 class Ip():
     'objeto ip que solo se utiliza con el crawler'
@@ -160,7 +160,7 @@ class Bot_Crawler():
     def obtener_links(self):
         'obtiene los links que expone shodan de las ips'
         logging.info('se inicia la obtencion de enlaces...')
-        status = func.cargar_json('status.json')
+        status = archivos.archivos.cargar_json('status.json')
         if ip.validado and self.status == 200:
             try:
                 links = re.findall(r'https?://\d+.\d+.\d+.\d+:\d+',str(self.html))
@@ -171,7 +171,8 @@ class Bot_Crawler():
                         print(Fore.WHITE+link)
                         print(func.rastreo(link,status))
             
-            except Exception as e:
+            except:
+                
                 logging.critical('ocurrio un error en obtener_links')
 
 class Ipv4():

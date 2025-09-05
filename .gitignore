@@ -9,4 +9,5 @@ env/
 scip3/
 bin/
 *.exe
-*.temp
+bin/
+temp.temp
