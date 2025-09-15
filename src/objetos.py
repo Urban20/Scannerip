@@ -106,6 +106,15 @@ class Bot_Crawler():
     '''un crawler es un bot que rastrea informacion de un sitio web, esto se encarga de:
     * webscraping
     * revisar la accesibilidad de las urls expuestas de las ips osinteadas'''
+
+
+    # AVISO IMPORTANTE:
+    # NO abuses del scraping: se debe utilizar con cautela
+    # el codigo proporcionado NO esta pensado para scraping masivo
+    # ni solicitudes masivas.
+
+    # NO me hago responsable por el uso abusivo que se le pueda dar a esta
+    # funcionalidad
     
     def __init__(self,ip):
         self.ip = ip
