@@ -11,3 +11,4 @@ bin/
 *.exe
 bin/
 temp.temp
+*.pyc
