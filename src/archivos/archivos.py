@@ -77,26 +77,6 @@ puertos encontrados:
     except Exception as e:
         logging.critical('ocurrio un error en la creacion del informe')
 
-def crear_informe(ip,puerto,titulo):
-
-    'crea los informes que van a ser guardados en los txt'
-    logging.info('creando informe...')
-    try:
-        informe=f'''
-##############################
-titulo : {titulo}
-ip / dominio: {ip}
-
-puertos encontrados:
-{puerto}
-##############################
-        '''
-
-
-        with open(nombre_arch,'a') as arch:
-            arch.write(informe)
-    except Exception as e:
-        logging.critical('ocurrio un error en la creacion del informe')
 
 def borrar_arch():
     'una pequeña funcion para borrar contenido de archivos'
